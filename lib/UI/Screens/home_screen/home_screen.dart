@@ -1,7 +1,9 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
+import 'package:bake_now/UI/Screens/Product_categories/prod_cate.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
+import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -100,9 +102,14 @@ class _home_screenState extends State<home_screen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      maxRadius: 15,
-                      backgroundImage: AssetImage('assets/images/boy.jpg'),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => user_profile(),));
+                      },
+                      child: CircleAvatar(
+                        maxRadius: 15,
+                        backgroundImage: AssetImage('assets/images/boy.jpg'),
+                      ),
                     ),
                     Text(
                       "Home",
@@ -184,31 +191,36 @@ class _home_screenState extends State<home_screen> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  width: 70,
-                  height: 70,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0xff7D7D7D),
-                            spreadRadius: -5,
-                            blurRadius: 4,
-                            offset: Offset(-10, 5)),
+                child: InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => prod_cate(),));
+                  },
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color(0xff7D7D7D),
+                              spreadRadius: -5,
+                              blurRadius: 4,
+                              offset: Offset(-10, 5)),
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color(0xffFFC107)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                            width: 40,
+                            height: 40,
+                            image: AssetImage(arr_categories[index]["image"])),
+                        Text(
+                          arr_categories[index]['name'],
+                          style: TextStyle(fontFamily: "Bebas", fontSize: 15),
+                        ),
                       ],
-                      borderRadius: BorderRadius.circular(30),
-                      color: Color(0xffFFC107)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image(
-                          width: 40,
-                          height: 40,
-                          image: AssetImage(arr_categories[index]["image"])),
-                      Text(
-                        arr_categories[index]['name'],
-                        style: TextStyle(fontFamily: "Bebas", fontSize: 15),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               );
@@ -299,12 +311,13 @@ class _home_screenState extends State<home_screen> {
                                 builder: (context, vm, child) {
                                   return InkWell(
                                     onTap: () {
-                                      vm.favourites.contains(index)
-                                          ? vm.remove_fav_item(index)
-                                          : vm.add_fav_item(index);
+                                      print(vm.arr_items[index]['name']);
+                                      vm.favourites.contains(vm.arr_items[index]['name'])
+                                          ? vm.remove_fav_item(vm.arr_items[index]['name'])
+                                          : vm.add_fav_item(vm.arr_items[index]['name']);
                                     },
                                     child:
-                                      vm.favourites.contains(index) ? Icon(Icons.favorite) :Icon(Icons.favorite_outline),
+                                      vm.favourites.contains(vm.arr_items[index]['name']) ? Icon(Icons.favorite,color: Colors.red,) :Icon(Icons.favorite_outline),
                                   );
                                 },
                               ),

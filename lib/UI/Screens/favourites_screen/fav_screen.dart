@@ -22,7 +22,7 @@ class _favourite_screenState extends State<favourite_screen> {
         children: [
           //app bar
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50),
+            padding: const EdgeInsets.only(top: 50),
             child: Text(
               "Favourites",
               style: TextStyle(
@@ -39,13 +39,13 @@ class _favourite_screenState extends State<favourite_screen> {
               itemBuilder: (context, index) {
                 return InkWell(
                 onTap: (){
-                instance_favourite_provider.favourites.contains(index) ? instance_favourite_provider.remove_fav_item(index) : instance_favourite_provider.add_fav_item(index);
+                instance_favourite_provider.favourites.contains(instance_favourite_provider.arr_items[index]['name']) ? instance_favourite_provider.remove_fav_item(instance_favourite_provider.arr_items[index]['name']) : instance_favourite_provider.add_fav_item(instance_favourite_provider.arr_items[index]['name']);
                 },
                 child: Consumer<class_fav_provider>(
                 builder: (context, vm, child) {
                 return ListTile(
                 leading: Image(image: AssetImage(vm.arr_items[index]['image']),),
-                trailing:vm.favourites.contains(index) ? Icon(Icons.favorite) :Icon(Icons.favorite_outline),
+                trailing:vm.favourites.contains(index) ? Icon(Icons.favorite,color: Colors.red,) :Icon(Icons.favorite_outline),
                 title:Text(vm.arr_items[index]['name']),
                 subtitle: Text(vm.arr_items[index]['price']),
                 );

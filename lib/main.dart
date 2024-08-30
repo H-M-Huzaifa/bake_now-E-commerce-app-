@@ -7,6 +7,7 @@ import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
 import 'package:bake_now/UI/Screens/splash_screen/splash_screen.dart';
+import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffFFC107)),
         useMaterial3: true,
       ),
-      home: signin(),
+      home: bottom_nav_bar(),
     ));
   }
 }

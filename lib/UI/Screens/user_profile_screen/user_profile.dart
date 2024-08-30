@@ -1,6 +1,8 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class user_profile extends StatefulWidget {
   const user_profile({super.key});
@@ -41,7 +43,7 @@ class _user_profileState extends State<user_profile> {
                               color: Color(0xff8D3F00),
                               Icons.arrow_back_ios_new))),
                   Text(
-                    "Checkout",
+                    "My Profile",
                     style: TextStyle(
                         fontFamily: 'Bebas',
                         fontSize: 25,
@@ -67,9 +69,14 @@ class _user_profileState extends State<user_profile> {
             ),
 
             //Profile Image
-            CircleAvatar(
-              maxRadius: 150,
-              backgroundImage: AssetImage("assets/images/boy.jpg"),
+            Stack(
+              children:[
+                CircleAvatar(
+                maxRadius: 80,
+                backgroundImage: AssetImage("assets/images/boy.jpg"),
+              ),
+                Positioned(right: 60,top: 60,child: Icon(Icons.edit)),
+              ]
             ),
 
             //Text Fields
@@ -78,7 +85,7 @@ class _user_profileState extends State<user_profile> {
                 children: [
                   //name
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                     child: TextField(
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -108,9 +115,41 @@ class _user_profileState extends State<user_profile> {
                     ),
                   ),
 
-                  //Contact number
+                  //email
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                    child: TextField(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xff8D3F00),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                            borderSide:
+                            BorderSide(width: 2, color: Colors.green),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                          ),
+                          suffixIcon: Icon(Icons.edit),
+                          prefixIcon: Icon(
+                            Icons.alternate_email,
+                            color: Color(0xffFFC107),
+                          ),
+                          hintText: 'abc123@xyz.com',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          labelText: 'Email',
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+
+                  //Address
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                     child: TextField(
                       decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -142,7 +181,7 @@ class _user_profileState extends State<user_profile> {
 
                   //Phone
                   Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                     child: TextField(
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -172,6 +211,66 @@ class _user_profileState extends State<user_profile> {
                           labelStyle: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ),
+
+                  //Password
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xff8D3F00),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                            borderSide:
+                            BorderSide(width: 2, color: Color(0xffFFC107)),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.drive_file_rename_outline,
+                            color: Color(0xffFFC107),
+                          ),
+                          suffixIcon: Icon(Icons.edit),
+                          hintText: '(0-9)(A-Z)(a-z)(alphanumeric)',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          labelText: 'Password',
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  //Confirm Password
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                            borderSide: BorderSide(
+                              width: 1,
+                              color: Color(0xff8D3F00),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                            borderSide:
+                            BorderSide(width: 2, color: Color(0xffFFC107)),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(11),
+                          ),
+
+                          hintStyle: TextStyle(color: Colors.grey),
+                          labelText: 'Confirm Password',
+                          labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -179,7 +278,7 @@ class _user_profileState extends State<user_profile> {
             //Save
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 50),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Container(
                     width: 200,
                     height: 60,

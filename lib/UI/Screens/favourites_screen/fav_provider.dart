@@ -56,12 +56,12 @@ class class_fav_provider with ChangeNotifier{
   List<dynamic> _favourites=[];
   List<dynamic> get favourites=> _favourites;
 
-  void add_fav_item(int value){
+  void add_fav_item(Map<String,dynamic> value){
     _favourites.add(value);
     notifyListeners();
   }
 
-  void remove_fav_item(int value){
+  void remove_fav_item(Map<String,dynamic> value){
     _favourites.remove(value);
     notifyListeners();
   }

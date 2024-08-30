@@ -43,7 +43,14 @@ class _signinState extends State<signin> {
               //Login
               Padding(
                 padding: const EdgeInsets.all(20),
-                child: Text("Login",style: TextStyle(fontSize: 20,fontFamily: 'Bebas',color: Color(0xff8D3F00)),),
+                child: Text(
+                  "Login",
+                  style: TextStyle(
+                      fontFamily: 'Bebas',
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff8D3F00)),
+                ),
               ),
 
               //email
@@ -70,7 +77,7 @@ class _signinState extends State<signin> {
                 child: Center(
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));
                     },
                     child: Container(
                       height:55,
@@ -125,7 +132,7 @@ class _signinState extends State<signin> {
                   },
                   child: RichText(text: TextSpan(children: [
                     TextSpan(text: "New to this platform? ",style: TextStyle(fontSize: 12,color: Colors.grey)),
-                    TextSpan(text: "Signup",style: TextStyle(fontSize: 18,color: Color(0xffFFC107),fontWeight: FontWeight.bold ))
+                    TextSpan(text: "Signup",style: TextStyle(fontSize: 15,color: Color(0xffFFC107),fontWeight: FontWeight.bold ))
                   ])),
                 ),
               )
