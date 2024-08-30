@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957679994689",
+    "project_id": "bake-now",
+    "storage_bucket": "bake-now.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957679994689:android:4cbd9200b568704f7a83c0",
+        "android_client_info": {
+          "package_name": "com.example.bake_now"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7UwvoAZ1vvqgcwLZchYCcaWRkQMZRF8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
