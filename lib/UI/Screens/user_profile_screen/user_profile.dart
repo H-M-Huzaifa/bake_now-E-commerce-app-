@@ -75,7 +75,7 @@ class _user_profileState extends State<user_profile> {
                 maxRadius: 80,
                 backgroundImage: AssetImage("assets/images/boy.jpg"),
               ),
-                Positioned(right: 60,top: 60,child: Icon(Icons.edit)),
+                Positioned(right: 20,bottom: 20,child: Icon(Icons.edit)),
               ]
             ),
 

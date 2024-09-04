@@ -11,10 +11,62 @@ class favourite_screen extends StatefulWidget {
 }
 
 class _favourite_screenState extends State<favourite_screen> {
+  // List<Map<String, dynamic>> arr_items = [
+  //   {
+  //     "image": "assets/images/cake.png",
+  //     "name": "Chocolate Fudge",
+  //     "size": "3 Pound",
+  //     "price": "1750/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake2.png",
+  //     "name": "Strawberella",
+  //     "size": "2.5 Pound",
+  //     "price": "1250/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake3.png",
+  //     "name": "Velvet Dream",
+  //     "size": "5 Pound",
+  //     "price": "4350/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake4.png",
+  //     "name": "Oreolicious",
+  //     "size": "2 Pound",
+  //     "price": "1100/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake5.png",
+  //     "name": "Chocolava",
+  //     "size": "2.5 Pound",
+  //     "price": "1500/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake6.png",
+  //     "name": "Marry Berry",
+  //     "size": "8.7 Pound",
+  //     "price": "11,200/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake7.png",
+  //     "name": "Dreamland",
+  //     "size": "5 Pound",
+  //     "price": "3350/-"
+  //   },
+  //   {
+  //     "image": "assets/images/cake8.png",
+  //     "name": "Bubble Gummers",
+  //     "size": "6.5 Pound",
+  //     "price": "7700/-"
+  //   },
+  // ];
+
+//List<Map<String, dynamic>> get arr_items => _arr_items;
   @override
   Widget build(BuildContext context) {
-    final instance_favourite_provider = Provider.of<class_fav_provider>(
-        context);
+    final instance_favourite_provider =
+        Provider.of<class_fav_provider>(context);
 
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
@@ -37,20 +89,26 @@ class _favourite_screenState extends State<favourite_screen> {
             child: ListView.builder(
               itemCount: instance_favourite_provider.favourites.length,
               itemBuilder: (context, index) {
-                return InkWell(
-                onTap: (){
-                instance_favourite_provider.favourites.contains(instance_favourite_provider.arr_items[index]['name']) ? instance_favourite_provider.remove_fav_item(instance_favourite_provider.arr_items[index]['name']) : instance_favourite_provider.add_fav_item(instance_favourite_provider.arr_items[index]['name']);
-                },
-                child: Consumer<class_fav_provider>(
-                builder: (context, vm, child) {
-                return ListTile(
-                leading: Image(image: AssetImage(vm.arr_items[index]['image']),),
-                trailing:vm.favourites.contains(index) ? Icon(Icons.favorite,color: Colors.red,) :Icon(Icons.favorite_outline),
-                title:Text(vm.arr_items[index]['name']),
-                subtitle: Text(vm.arr_items[index]['price']),
-                );
-                }),
-                );
+                final product = instance_favourite_provider.favourites[index];
+                return
+                  Consumer<class_fav_provider>(
+                      builder: (context, vm, child) {
+                    return ListTile(
+                      leading: Image(
+                        image: AssetImage(vm.favourites[index]['image']),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete,),
+                        onPressed: () {
+                          instance_favourite_provider.toggleFavourite(product);
+                        },
+                      ),
+                      title: Text(instance_favourite_provider.favourites[index]
+                          ['name']),
+                      subtitle: Text(instance_favourite_provider
+                          .favourites[index]['price']),
+                    );
+                  });
               },
             ),
           ),

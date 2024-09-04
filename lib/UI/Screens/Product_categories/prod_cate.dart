@@ -11,7 +11,31 @@ class _prod_cateState extends State<prod_cate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text("Hello"),
+      backgroundColor: Color(0xffFFF7DE),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+
+          //appbar
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50),
+            child: Text(
+              "Cakes",
+              style: TextStyle(
+                  fontFamily: 'Bebas',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff8D3F00)),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(itemBuilder: (context, index) {
+              return ListTile();
+            },),
+          )
+        ],
+      ),
     );
   }
 }

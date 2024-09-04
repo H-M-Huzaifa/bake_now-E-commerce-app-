@@ -17,7 +17,7 @@ class home_screen extends StatefulWidget {
 }
 
 class _home_screenState extends State<home_screen> {
-  List<Map<dynamic, dynamic>> arr_categories = [
+  List<Map<String, dynamic>> arr_categories = [
     {"name": "Sweets", "image": "assets/icons/ladu.png"},
     {"name": "Cookies", "image": "assets/icons/cookie.png"},
     {"name": "Cakes", "image": "assets/icons/cake.png"},
@@ -25,7 +25,7 @@ class _home_screenState extends State<home_screen> {
     {"name": "Snacks", "image": "assets/icons/samosa.png"},
     {"name": "Fast Food", "image": "assets/icons/fast-food.png"},
   ];
-  List<Map<dynamic, dynamic>> arr_items = [
+  List<Map<String, dynamic>> arr_items = [
     {
       "image": "assets/images/cake.png",
       "name": "Chocolate Fudge",
@@ -78,10 +78,11 @@ class _home_screenState extends State<home_screen> {
 
   @override
   Widget build(BuildContext context) {
+    final instance_favourites = Provider.of<class_fav_provider>(context);
+
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
         //app bar
         Container(
           width: double.infinity,
@@ -103,8 +104,12 @@ class _home_screenState extends State<home_screen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => user_profile(),));
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => user_profile(),
+                            ));
                       },
                       child: CircleAvatar(
                         maxRadius: 15,
@@ -157,6 +162,7 @@ class _home_screenState extends State<home_screen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                   child: TextField(
+                    onTapOutside: (event) => () {},
                     decoration: InputDecoration(
                       suffixIcon: Icon(Icons.search),
                       hintText: "search",
@@ -192,8 +198,12 @@ class _home_screenState extends State<home_screen> {
               return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => prod_cate(),));
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => prod_cate(),
+                        ));
                   },
                   child: Container(
                     width: 70,
@@ -245,6 +255,8 @@ class _home_screenState extends State<home_screen> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
               itemBuilder: (context, index) {
+                final product = arr_items[index];
+                final isFavorite = instance_favourites.isFavourite(product);
                 return Center(
                   child: GestureDetector(
                     onTap: () {
@@ -310,15 +322,30 @@ class _home_screenState extends State<home_screen> {
                               Consumer<class_fav_provider>(
                                 builder: (context, vm, child) {
                                   return InkWell(
-                                    onTap: () {
-                                      print(vm.arr_items[index]['name']);
-                                      vm.favourites.contains(vm.arr_items[index]['name'])
-                                          ? vm.remove_fav_item(vm.arr_items[index]['name'])
-                                          : vm.add_fav_item(vm.arr_items[index]['name']);
+                                    onTap: (){
+                                      instance_favourites.toggleFavourite(product);
                                     },
                                     child:
-                                      vm.favourites.contains(vm.arr_items[index]['name']) ? Icon(Icons.favorite,color: Colors.red,) :Icon(Icons.favorite_outline),
+                                        vm.favourites.contains(arr_items[index])
+                                            ? Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                              )
+                                            : Icon(Icons.favorite_outline),
                                   );
+                                  // IconButton(
+                                  //   icon:
+                                  //   vm.favourites.contains(arr_items[index])
+                                  //       ? Icon(
+                                  //     Icons.favorite,
+                                  //     color: Colors.red,
+                                  //   )
+                                  //       : Icon(Icons.favorite_border),
+                                  //   onPressed: () {
+                                  //     instance_favourites
+                                  //         .toggleFavourite(product);
+                                  //   },
+                                  // );
                                 },
                               ),
                             ],

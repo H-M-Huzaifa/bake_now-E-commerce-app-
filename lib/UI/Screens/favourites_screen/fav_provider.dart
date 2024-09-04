@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class class_fav_provider with ChangeNotifier{
-  List<Map<dynamic, dynamic>> _arr_items = [
+class class_fav_provider with ChangeNotifier {
+  List<Map<String, dynamic>> _arr_items = [
     {
       "image": "assets/images/cake.png",
       "name": "Chocolate Fudge",
@@ -51,18 +51,34 @@ class class_fav_provider with ChangeNotifier{
       "price": "7700/-"
     },
   ];
-  List<Map<dynamic, dynamic>> get arr_items => _arr_items;
 
-  List<dynamic> _favourites=[];
-  List<dynamic> get favourites=> _favourites;
+  List<Map<String, dynamic>> get arr_items => _arr_items;
 
-  void add_fav_item(Map<String,dynamic> value){
-    _favourites.add(value);
+  List<Map<String, dynamic>> _favourites = [];
+
+  List<Map<String, dynamic>> get favourites => _favourites;
+
+  void toggleFavourite(Map<String, dynamic> product) {
+    if (_favourites.contains(product)) {
+      _favourites.remove(product);
+    } else {
+      _favourites.add(product);
+    }
     notifyListeners();
   }
 
-  void remove_fav_item(Map<String,dynamic> value){
-    _favourites.remove(value);
-    notifyListeners();
-  }
+bool isFavourite(Map<String, dynamic> product) {
+  return _favourites.contains(product);
+
 }
+
+
+}
+// void add_fav_item(Map<String,dynamic> item){
+//   _favourites.add(item);
+//   notifyListeners();
+// }
+//
+// void remove_fav_item(Map<String,dynamic> item){
+//   _favourites.remove(item);
+//   notifyListeners();

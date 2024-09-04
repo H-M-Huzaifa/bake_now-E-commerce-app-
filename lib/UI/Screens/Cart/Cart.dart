@@ -16,7 +16,19 @@ class _cartState extends State<cart> {
       backgroundColor: Color(0xffFFF7DE),
       body: Column(
         children: [
-          Center(child: Text("Cart")),
+
+          //app bar
+          Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: Text(
+              "Favourites",
+              style: TextStyle(
+                  fontFamily: 'Bebas',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff8D3F00)),
+            ),
+          ),
 
           //Checkout
           Expanded(
