@@ -51,34 +51,32 @@ class class_fav_provider with ChangeNotifier {
       "price": "7700/-"
     },
   ];
-
   List<Map<String, dynamic>> get arr_items => _arr_items;
 
   List<Map<String, dynamic>> _favourites = [];
-
   List<Map<String, dynamic>> get favourites => _favourites;
 
-  void toggleFavourite(Map<String, dynamic> product) {
-    if (_favourites.contains(product)) {
-      _favourites.remove(product);
-    } else {
-      _favourites.add(product);
-    }
-    notifyListeners();
-  }
+void add_fav_item(Map<String,dynamic> item){
+  _favourites.add(item);
+  notifyListeners();
+}
 
-bool isFavourite(Map<String, dynamic> product) {
-  return _favourites.contains(product);
+void remove_fav_item(Map<String,dynamic> item){
+  _favourites.remove(item);
+  notifyListeners();
+}
 
 }
 
 
-}
-// void add_fav_item(Map<String,dynamic> item){
-//   _favourites.add(item);
+// void toggleFavourite(Map<String, dynamic> product) {
+//   if (_favourites.contains(product)) {
+//     _favourites.remove(product);
+//   } else {
+//     _favourites.add(product);
+//   }
 //   notifyListeners();
 // }
-//
-// void remove_fav_item(Map<String,dynamic> item){
-//   _favourites.remove(item);
-//   notifyListeners();
+
+//bool isFavourite(Map<String, dynamic> product) {
+// return _favourites.contains(product);

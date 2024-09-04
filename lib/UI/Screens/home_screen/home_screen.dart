@@ -78,8 +78,6 @@ class _home_screenState extends State<home_screen> {
 
   @override
   Widget build(BuildContext context) {
-    final instance_favourites = Provider.of<class_fav_provider>(context);
-
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -144,7 +142,7 @@ class _home_screenState extends State<home_screen> {
                 //Logo
                 Container(
                     decoration:
-                        BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                    BoxDecoration(shape: BoxShape.circle, boxShadow: [
                       BoxShadow(
                         color: Color(0xff7D7D7D),
                         spreadRadius: -15,
@@ -255,8 +253,8 @@ class _home_screenState extends State<home_screen> {
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
               itemBuilder: (context, index) {
-                final product = arr_items[index];
-                final isFavorite = instance_favourites.isFavourite(product);
+                //final product = arr_items[index];
+                //final isFavorite = instance_favourites.isFavourite(product);
                 return Center(
                   child: GestureDetector(
                     onTap: () {
@@ -322,16 +320,19 @@ class _home_screenState extends State<home_screen> {
                               Consumer<class_fav_provider>(
                                 builder: (context, vm, child) {
                                   return InkWell(
-                                    onTap: (){
-                                      instance_favourites.toggleFavourite(product);
+                                    onTap: () {
+                                      // instance_favourites.toggleFavourite(arr_items[index]);
+                                      vm.favourites.contains(arr_items[index])
+                                          ? vm.remove_fav_item(arr_items[index])
+                                          : vm.add_fav_item(arr_items[index]);
                                     },
                                     child:
-                                        vm.favourites.contains(arr_items[index])
-                                            ? Icon(
-                                                Icons.favorite,
-                                                color: Colors.red,
-                                              )
-                                            : Icon(Icons.favorite_outline),
+                                    vm.favourites.contains(arr_items[index])
+                                        ? Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    )
+                                        : Icon(Icons.favorite_outline),
                                   );
                                   // IconButton(
                                   //   icon:
