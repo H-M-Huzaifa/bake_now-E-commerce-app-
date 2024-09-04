@@ -1,8 +1,10 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class checkout extends StatefulWidget {
   const checkout({super.key});
@@ -22,7 +24,6 @@ class _checkoutState extends State<checkout> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-        
             //app bar
             Padding(
               padding: const EdgeInsets.only(top: 50),
@@ -32,10 +33,17 @@ class _checkoutState extends State<checkout> {
                 children: [
                   GestureDetector(
                       onTap: () {},
-                      child:
-                          GestureDetector(onTap: (){
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => cart(),));
-                          },child: Icon(color: Color(0xff8D3F00), Icons.arrow_back_ios_new))),
+                      child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => cart(),
+                                ));
+                          },
+                          child: Icon(
+                              color: Color(0xff8D3F00),
+                              Icons.arrow_back_ios_new))),
                   Text(
                     "Checkout",
                     style: TextStyle(
@@ -45,9 +53,12 @@ class _checkoutState extends State<checkout> {
                         color: Color(0xff8D3F00)),
                   ),
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));
-
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => bottom_nav_bar(),
+                          ));
                     },
                     child: Icon(
                       Icons.home,
@@ -58,14 +69,14 @@ class _checkoutState extends State<checkout> {
                 ],
               ),
             ),
-        
+
             //Checkout Image
             Image(
               height: 300,
               width: 300,
               image: AssetImage('assets/images/checkout.png'),
             ),
-        
+
             //Name
             Container(
               child: Column(
@@ -83,7 +94,8 @@ class _checkoutState extends State<checkout> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(11),
-                            borderSide: BorderSide(width: 2, color: Colors.green),
+                            borderSide:
+                                BorderSide(width: 2, color: Colors.green),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(11),
@@ -98,7 +110,7 @@ class _checkoutState extends State<checkout> {
                           labelStyle: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ),
-        
+
                   //Contact number
                   Padding(
                     padding: const EdgeInsets.all(10),
@@ -113,7 +125,8 @@ class _checkoutState extends State<checkout> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(11),
-                            borderSide: BorderSide(width: 2, color: Colors.green),
+                            borderSide:
+                                BorderSide(width: 2, color: Colors.green),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(11),
@@ -128,7 +141,7 @@ class _checkoutState extends State<checkout> {
                           labelStyle: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ),
-        
+
                   //Phone
                   Padding(
                     padding: const EdgeInsets.all(10),
@@ -144,7 +157,8 @@ class _checkoutState extends State<checkout> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(11),
-                            borderSide: BorderSide(width: 2, color: Colors.green),
+                            borderSide:
+                                BorderSide(width: 2, color: Colors.green),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(11),
@@ -159,7 +173,7 @@ class _checkoutState extends State<checkout> {
                           labelStyle: TextStyle(fontWeight: FontWeight.bold)),
                     ),
                   ),
-        
+
                   //Checkbox
                   Row(
                     children: [
@@ -173,14 +187,15 @@ class _checkoutState extends State<checkout> {
                       ),
                       Text(
                         "Save this information for future",
-                        style: TextStyle(color: Color(0xff8D3F00), fontSize: 15),
+                        style:
+                            TextStyle(color: Color(0xff8D3F00), fontSize: 15),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-        
+
             //Total
             Container(
               child: Column(
@@ -251,28 +266,89 @@ class _checkoutState extends State<checkout> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50),
-                child: Container(
-                    width: 200,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xff7D7D7D),
-                          spreadRadius: -1,
-                          blurRadius:7,
-                          offset: Offset(0, 10),
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(30),
-                      color: Color(0xffFFC107),
-                    ),
-                    child: Center(child: Text("order now",style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),))
-
+                child: InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xfffaf1cf),
+                                borderRadius: BorderRadius.circular(30)),
+                            height: 350,
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  child: Container(
+                                    width: 70,
+                                    height: 7,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffbb5900),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                  ),
+                                ),
+                                Lottie.asset(frameRate: FrameRate(120),"assets/animations/checkout_animation.json"),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Order Confirmed",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'Bebas',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "You will shortly receive a confirmation messsage",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'Bebas',
+                                              color: Colors.grey,
+                                              fontSize: 18,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  child: Container(
+                      width: 200,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff7D7D7D),
+                            spreadRadius: -1,
+                            blurRadius: 7,
+                            offset: Offset(0, 10),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        color: Color(0xffFFC107),
+                      ),
+                      child: Center(
+                          child: Text(
+                        "order now",
+                        style: TextStyle(
+                            fontFamily: "Bebas",
+                            fontSize: 25,
+                            color: Color(0xff8D3F00)),
+                      ))),
                 ),
               ),
             ),
-
-        
           ],
         ),
       ),
