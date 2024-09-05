@@ -14,15 +14,14 @@ class bottom_nav_bar extends StatefulWidget {
 }
 
 class _bottom_nav_barState extends State<bottom_nav_bar> {
-
-  List<Widget> Screens=[
+  List<Widget> Screens = [
     home_screen(),
-  favourite_screen(),
+    favourite_screen(),
     user_profile(),
     order_history(),
   ];
 
-  int selectedstate=0;
+  int selectedstate = 0;
 
   List<TabItem> items = [
     TabItem(
@@ -46,14 +45,7 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          child: Image(
-              width: 40,
-              height: 40,
-              image: AssetImage('assets/icons/chat.png')),
-          backgroundColor: Color(0xffFFC107),
-          onPressed: () {}),
-      body: Screens[selectedstate],
+      body: IndexedStack(index: selectedstate, children: Screens),
       bottomNavigationBar: BottomBarInspiredOutside(
         items: items,
         backgroundColor: Color(0xffefc332),
@@ -63,12 +55,16 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
         onTap: (index) => setState(() {
           selectedstate = index;
         }),
-        chipStyle:const ChipStyle(color: Colors.red,background: Color(0xffbb5900),convexBridge: false
-          ,notchSmoothness: NotchSmoothness.sharpEdge,),
-        itemStyle: ItemStyle.circle,isAnimated: true,
+        chipStyle: const ChipStyle(
+          color: Colors.red,
+          background: Color(0xffbb5900),
+          convexBridge: false,
+          notchSmoothness: NotchSmoothness.sharpEdge,
+        ),
+        itemStyle: ItemStyle.circle,
+        isAnimated: true,
         animated: true,
       ),
-
     );
   }
 }

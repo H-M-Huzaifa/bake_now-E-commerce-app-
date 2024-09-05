@@ -275,9 +275,10 @@ class _checkoutState extends State<checkout> {
                             decoration: BoxDecoration(
                                 color: Color(0xfffaf1cf),
                                 borderRadius: BorderRadius.circular(30)),
-                            height: 350,
+                            height: double.infinity,
                             width: double.infinity,
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Padding(
                                   padding:
@@ -291,31 +292,68 @@ class _checkoutState extends State<checkout> {
                                             BorderRadius.circular(20)),
                                   ),
                                 ),
-                                Lottie.asset(frameRate: FrameRate(120),"assets/animations/checkout_animation.json"),
+                                Lottie.asset(
+                                    frameRate: FrameRate(120),
+                                    "assets/animations/checkout_animation.json"),
                                 Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Order Confirmed",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontFamily: 'Bebas',
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "You will shortly receive a confirmation messsage",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontFamily: 'Bebas',
-                                              color: Colors.grey,
-                                              fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(50.0),
+                                        child: RichText(textAlign: TextAlign.center,
+                                            text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Order Confirmed",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                  fontFamily: 'Bebas',
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            TextSpan(
+                                              text: "\nYou will recieve a confirmation message shortly",
+                                              style: TextStyle(
+                                                fontFamily: 'Bebas',
+                                                color: Colors.grey,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        )),
+                                      ),
+
+                                      //Explore more
+                                      InkWell(
+                                        onTap:(){
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));
+                                        },
+                                        child: Container(
+                                            width: 200,
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Color(0xff7D7D7D),
+                                                  spreadRadius: -1,
+                                                  blurRadius: 7,
+                                                  offset: Offset(0, 10),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              color: Color(0xffFFC107),
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                              "Continue Shopping",
+                                              style: TextStyle(
+                                                  fontFamily: "Bebas",
+                                                  fontSize: 25,
+                                                  color: Color(0xff8D3F00)),
+                                            ))),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
