@@ -1,12 +1,26 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
-import 'package:bake_now/UI/Screens/Cart/Cart.dart';
+import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:badges/badges.dart' as badges;
+
 
 class product_description extends StatefulWidget {
-  const product_description({super.key});
+  String name;
+  String image;
+  String description;
+  String size;
+  String price;
+
+  product_description({super.key,
+  required this.name,
+  required this.image,
+  required this.description,
+  required this.size,
+  required this.price,
+  });
 
   @override
   State<product_description> createState() => _product_descriptionState();
@@ -25,11 +39,11 @@ class _product_descriptionState extends State<product_description> {
             //product_container
             Container(
               width: double.infinity,
-              height: 400,
-              decoration: const BoxDecoration(
+              height: 460,
+              decoration:  BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.scaleDown,
-                    image: AssetImage('assets/images/cake2.png')),
+                    image: AssetImage(widget.image)),
                 color: Color(0xffFFC107),
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(150),
@@ -47,17 +61,33 @@ class _product_descriptionState extends State<product_description> {
                       children: [
                         GestureDetector(onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));},child: Icon(color: Color(0xff8D3F00), Icons.arrow_back_ios_new)),
                         Text(
-                          "Chocolate Fudge",
+                          widget.name,
                           style: TextStyle(
                               fontFamily: 'Bebas',
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Color(0xff8D3F00)),
                         ),
-                        Icon(
-                          Icons.favorite_border,
-                          color: Color(0xff8D3F00),
-                          size: 25,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => cart(),
+                                ));
+                          },
+                          child: badges.Badge(position: badges.BadgePosition.topEnd(end: -10,top: -10),
+                            badgeAnimation: badges.BadgeAnimation.slide(),
+                            badgeContent: Text(
+                              "5",
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                            child: Icon(
+                              Icons.shopping_bag,
+                              color: Color(0xff8D3F00),
+                              size: 25,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -72,7 +102,7 @@ class _product_descriptionState extends State<product_description> {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   textAlign: TextAlign.center,
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse",
+                  widget.description.toString(),
                   style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: Color(0xff8D3F00)),
                 ),
               ),
@@ -102,11 +132,11 @@ class _product_descriptionState extends State<product_description> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
-                        child: Text("Size",style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
+                        child: Text("Size" ,style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
-                        child: Text("2.5 Pound",style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),),
+                        child: Text(widget.size,style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),),
                       )
                     ],
                   ),
@@ -143,7 +173,7 @@ class _product_descriptionState extends State<product_description> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
-                        child: Text("Rs 2500/-",style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),),
+                        child: Text(widget.price,style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),),
                       )
                     ],
                   ),
@@ -194,7 +224,7 @@ class _product_descriptionState extends State<product_description> {
 
                               //number
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 15),
+                                padding: EdgeInsets.symmetric(horizontal: 15),
                                 child: Text("1",style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
                               ),
 

@@ -1,5 +1,6 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
-import 'package:bake_now/UI/Screens/Cart/Cart.dart';
+import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
+import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
 import 'package:bake_now/UI/Screens/Checkout_Screen/Checkout.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
@@ -18,11 +19,11 @@ import 'services/firebase_options.dart';
 void main() {
 
   //lock screen oreintation
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
   DeviceOrientation.portraitUp,
-  DeviceOrientation.portraitDown,
-
-]);
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => class_fav_provider()),
           ChangeNotifierProvider(create: (_) => class_homescreen_provider()),
+          ChangeNotifierProvider(create: (_) => class_cart_provider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

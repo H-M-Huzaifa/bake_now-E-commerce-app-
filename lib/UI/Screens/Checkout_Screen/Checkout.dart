@@ -1,5 +1,5 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
-import 'package:bake_now/UI/Screens/Cart/Cart.dart';
+import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +54,7 @@ class _checkoutState extends State<checkout> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => bottom_nav_bar(),
@@ -278,11 +278,10 @@ class _checkoutState extends State<checkout> {
                             height: double.infinity,
                             width: double.infinity,
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Container(
                                     width: 70,
                                     height: 7,

@@ -1,5 +1,5 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
-import 'package:bake_now/UI/Screens/Cart/Cart.dart';
+import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
 import 'package:bake_now/UI/Screens/Product_categories/prod_cate.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
@@ -152,7 +152,7 @@ class _home_screenState extends State<home_screen> {
           height: 100,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: instance_homescreen_provider.arr_categories.length,
+            itemCount: instance_homescreen_provider.list_categories.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -183,9 +183,9 @@ class _home_screenState extends State<home_screen> {
                         Image(
                             width: 40,
                             height: 40,
-                            image: AssetImage(instance_homescreen_provider.arr_categories[index]["image"])),
+                            image: AssetImage(instance_homescreen_provider.list_categories[index]["image"])),
                         Text(
-                          instance_homescreen_provider.arr_categories[index]['name'],
+                          instance_homescreen_provider.list_categories[index]['name'],
                           style: TextStyle(fontFamily: "Bebas", fontSize: 15),
                         ),
                       ],
@@ -210,11 +210,11 @@ class _home_screenState extends State<home_screen> {
         Expanded(
           child: Container(
             child: GridView.builder(
-              itemCount: instance_homescreen_provider.arr_items.length,
+              itemCount: instance_homescreen_provider.list_items.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
               itemBuilder: (context, index) {
-                //final product = arr_items[index];
+                //final product = list_items[index];
                 //final isFavorite = instance_favourites.isFavourite(product);
                 return Center(
                   child: GestureDetector(
@@ -222,7 +222,13 @@ class _home_screenState extends State<home_screen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => product_description(),
+                            builder: (context) => product_description(
+                              name : instance_homescreen_provider.list_items[index]['name'].toString(),
+                              image : instance_homescreen_provider.list_items[index]['image'].toString(),
+                              description: instance_homescreen_provider.list_items[index]['description'].toString(),
+                              size: instance_homescreen_provider.list_items[index]['size'].toString(),
+                                price: instance_homescreen_provider.list_items[index]['price'].toString(),
+                            ),
                           ));
                     },
                     child: Container(
@@ -243,14 +249,14 @@ class _home_screenState extends State<home_screen> {
                         children: [
                           //Image
                           Image(
-                            image: AssetImage(instance_homescreen_provider.arr_items[index]['image']),
+                            image: AssetImage(instance_homescreen_provider.list_items[index]['image']),
                             width: 150,
                             height: 100,
                           ),
 
                           //Name
                           Text(
-                            instance_homescreen_provider.arr_items[index]['name'],
+                            instance_homescreen_provider.list_items[index]['name'],
                             style: TextStyle(
                               fontFamily: "Bebas",
                               fontSize: 22,
@@ -265,14 +271,14 @@ class _home_screenState extends State<home_screen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    instance_homescreen_provider.arr_items[index]['size'],
+                                    instance_homescreen_provider.list_items[index]['size'],
                                     style: TextStyle(
                                         fontFamily: "Bebas",
                                         color: Colors.grey,
                                         fontSize: 18),
                                   ),
                                   Text(
-                                    "Rs " + instance_homescreen_provider.arr_items[index]['price'],
+                                    "Rs " + instance_homescreen_provider.list_items[index]['price'],
                                     style: TextStyle(
                                         fontSize: 18, fontFamily: "Bebas"),
                                   ),
@@ -282,13 +288,13 @@ class _home_screenState extends State<home_screen> {
                                 builder: (context, vm, child) {
                                   return InkWell(
                                     onTap: () {
-                                      // instance_favourites.toggleFavourite(arr_items[index]);
-                                      vm.favourites.contains(instance_homescreen_provider.arr_items[index])
-                                          ? vm.remove_fav_item(instance_homescreen_provider.arr_items[index])
-                                          : vm.add_fav_item(instance_homescreen_provider.arr_items[index]);
+                                      // instance_favourites.toggleFavourite(list_items[index]);
+                                      vm.favourites.contains(instance_homescreen_provider.list_items[index])
+                                          ? vm.remove_fav_item(instance_homescreen_provider.list_items[index])
+                                          : vm.add_fav_item(instance_homescreen_provider.list_items[index]);
                                     },
                                     child:
-                                        vm.favourites.contains(instance_homescreen_provider.arr_items[index])
+                                        vm.favourites.contains(instance_homescreen_provider.list_items[index])
                                             ? Icon(
                                                 Icons.favorite,
                                                 color: Colors.red,
@@ -297,7 +303,7 @@ class _home_screenState extends State<home_screen> {
                                   );
                                   // IconButton(
                                   //   icon:
-                                  //   vm.favourites.contains(arr_items[index])
+                                  //   vm.favourites.contains(list_items[index])
                                   //       ? Icon(
                                   //     Icons.favorite,
                                   //     color: Colors.red,
