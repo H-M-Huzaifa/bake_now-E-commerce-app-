@@ -3,6 +3,7 @@ import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
 import 'package:bake_now/UI/Screens/Checkout_Screen/Checkout.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
+import 'package:bake_now/UI/Screens/Product_categories/prod_cate_provider.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => class_fav_provider()),
           ChangeNotifierProvider(create: (_) => class_homescreen_provider()),
           ChangeNotifierProvider(create: (_) => class_cart_provider()),
+          ChangeNotifierProvider(create: (_) => class_prod_cate_provider()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

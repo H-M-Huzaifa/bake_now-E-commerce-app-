@@ -9,16 +9,32 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class prod_cate extends StatefulWidget {
-  const prod_cate({super.key});
+  int index;
+  String name;
+  List<Map<String, List<Map<String, dynamic>>>> allItems;
+
+  prod_cate({
+    super.key,
+    required this.index,
+  required this.name,
+    required this.allItems,
+  });
 
   @override
   State<prod_cate> createState() => _prod_cateState();
 }
 
 class _prod_cateState extends State<prod_cate> {
+  late List<Map<String, dynamic>> list;
+
+  @override
+  void initState() {
+    super.initState();
+    list = widget.allItems[widget.index][widget.name]!;  // Access the specific map
+  }
+
   @override
   Widget build(BuildContext context) {
-    final instance_homescreen_provider = Provider.of<class_homescreen_provider>(context);
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
       body: Column(
@@ -35,7 +51,7 @@ class _prod_cateState extends State<prod_cate> {
               children: [
                 GestureDetector(onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));},child: Icon(color: Color(0xff8D3F00), Icons.arrow_back_ios_new)),
                 Text(
-                  "Cake",
+                  widget.name,
                   style: TextStyle(
                       fontFamily: 'Bebas',
                       fontSize: 25,
@@ -56,7 +72,7 @@ class _prod_cateState extends State<prod_cate> {
           Expanded(
             child: Container(
               child: GridView.builder(
-                itemCount: instance_homescreen_provider.list_items.length,
+                itemCount: list.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     mainAxisSpacing: 30, crossAxisSpacing: 5, crossAxisCount: 2),
                 itemBuilder: (context, index) {
@@ -69,11 +85,11 @@ class _prod_cateState extends State<prod_cate> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => product_description(
-                                name : instance_homescreen_provider.list_items[index]['name'].toString(),
-                                image : instance_homescreen_provider.list_items[index]['image'].toString(),
-                                description: instance_homescreen_provider.list_items[index]['description'].toString(),
-                                size: instance_homescreen_provider.list_items[index]['size'].toString(),
-                                price: instance_homescreen_provider.list_items[index]['price'].toString(),
+                                name : list[index]['name'].toString(),
+                                image : list[index]['image'].toString(),
+                                description: list[index]['description'].toString(),
+                                size: list[index]['size'].toString(),
+                                price: list[index]['price'].toString(),
                               ),
                             ));
 
@@ -96,14 +112,14 @@ class _prod_cateState extends State<prod_cate> {
                           children: [
                             //Image
                             Image(
-                              image: AssetImage(instance_homescreen_provider.list_items[index]['image']),
+                              image: AssetImage(list[index]['image']),
                               width: 150,
                               height: 100,
                             ),
 
                             //Name
                             Text(
-                              instance_homescreen_provider.list_items[index]['name'],
+                              list[index]['name'],
                               style: TextStyle(
                                 fontFamily: "Bebas",
                                 fontSize: 22,
@@ -118,14 +134,14 @@ class _prod_cateState extends State<prod_cate> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      instance_homescreen_provider.list_items[index]['size'],
+                                      list[index]['size'],
                                       style: TextStyle(
                                           fontFamily: "Bebas",
                                           color: Colors.grey,
                                           fontSize: 18),
                                     ),
                                     Text(
-                                      "Rs " + instance_homescreen_provider.list_items[index]['price'],
+                                      "Rs " + list[index]['price'],
                                       style: TextStyle(
                                           fontSize: 18, fontFamily: "Bebas"),
                                     ),
@@ -136,12 +152,12 @@ class _prod_cateState extends State<prod_cate> {
                                     return InkWell(
                                       onTap: () {
                                         // instance_favourites.toggleFavourite(list_items[index]);
-                                        vm.favourites.contains(instance_homescreen_provider.list_items[index])
-                                            ? vm.remove_fav_item(instance_homescreen_provider.list_items[index])
-                                            : vm.add_fav_item(instance_homescreen_provider.list_items[index]);
+                                        vm.favourites.contains(list[index])
+                                            ? vm.remove_fav_item(list[index])
+                                            : vm.add_fav_item(list[index]);
                                       },
                                       child:
-                                      vm.favourites.contains(instance_homescreen_provider.list_items[index])
+                                      vm.favourites.contains(list[index])
                                           ? Icon(
                                         Icons.favorite,
                                         color: Colors.red,
