@@ -1,5 +1,6 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
+import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
 import 'package:bake_now/UI/Screens/Product_categories/prod_cate.dart';
 import 'package:bake_now/UI/Screens/Product_categories/prod_cate_provider.dart';
@@ -23,6 +24,7 @@ class _home_screenState extends State<home_screen> {
   @override
   Widget build(BuildContext context) {
     final instance_homescreen_provider = Provider.of<class_homescreen_provider>(context);
+    final instance_cart_provider = Provider.of<class_cart_provider>(context);
     final instance_prod_cate_provider = Provider.of<class_prod_cate_provider>(context);
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
@@ -89,7 +91,8 @@ class _home_screenState extends State<home_screen> {
                       child: badges.Badge(position: badges.BadgePosition.topEnd(end: -10,top: -10),
                         badgeAnimation: badges.BadgeAnimation.slide(),
                         badgeContent: Text(
-                          "5",
+                          instance_cart_provider.cart_items.length>=1 ?
+                          instance_cart_provider.cart_items.length.toString() : "",
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         child: Icon(

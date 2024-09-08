@@ -50,7 +50,7 @@ class _favourite_screenState extends State<favourite_screen> {
                         ),
                         SizedBox(height: 20),
                         Text(
-                          "Oops! It seems like you haven't liked anything yet.  ",
+                          "Oops! It seems you haven't liked anything yet.  ",
                           style: TextStyle(
                             fontFamily: 'Bebas',
                             fontSize: 22,

@@ -1,11 +1,13 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
+import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
+import 'package:bake_now/UI/Screens/Product_categories/prod_cate_provider.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:badges/badges.dart' as badges;
-
+import 'package:provider/provider.dart';
 
 class product_description extends StatefulWidget {
   String name;
@@ -14,12 +16,13 @@ class product_description extends StatefulWidget {
   String size;
   String price;
 
-  product_description({super.key,
-  required this.name,
-  required this.image,
-  required this.description,
-  required this.size,
-  required this.price,
+  product_description({
+    super.key,
+    required this.name,
+    required this.image,
+    required this.description,
+    required this.size,
+    required this.price,
   });
 
   @override
@@ -27,23 +30,24 @@ class product_description extends StatefulWidget {
 }
 
 class _product_descriptionState extends State<product_description> {
+  int quantity = 1; // Add a quantity field
+
   @override
   Widget build(BuildContext context) {
+    final instance_cart_provider = Provider.of<class_cart_provider>(context);
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             //product_container
             Container(
               width: double.infinity,
               height: 460,
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                    fit: BoxFit.scaleDown,
-                    image: AssetImage(widget.image)),
+                    fit: BoxFit.scaleDown, image: AssetImage(widget.image)),
                 color: Color(0xffFFC107),
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(150),
@@ -59,7 +63,17 @@ class _product_descriptionState extends State<product_description> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GestureDetector(onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));},child: Icon(color: Color(0xff8D3F00), Icons.arrow_back_ios_new)),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => bottom_nav_bar(),
+                                  ));
+                            },
+                            child: Icon(
+                                color: Color(0xff8D3F00),
+                                Icons.arrow_back_ios_new)),
                         Text(
                           widget.name,
                           style: TextStyle(
@@ -76,11 +90,15 @@ class _product_descriptionState extends State<product_description> {
                                   builder: (context) => cart(),
                                 ));
                           },
-                          child: badges.Badge(position: badges.BadgePosition.topEnd(end: -10,top: -10),
+                          child: badges.Badge(
+                            position:
+                                badges.BadgePosition.topEnd(end: -10, top: -10),
                             badgeAnimation: badges.BadgeAnimation.slide(),
                             badgeContent: Text(
-                              "5",
-                              style: TextStyle(color: Colors.white, fontSize: 18),
+                              instance_cart_provider.cart_items.length>=1 ?
+                              instance_cart_provider.cart_items.length.toString() : "",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             child: Icon(
                               Icons.shopping_bag,
@@ -103,7 +121,10 @@ class _product_descriptionState extends State<product_description> {
                 child: Text(
                   textAlign: TextAlign.center,
                   widget.description.toString(),
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,color: Color(0xff8D3F00)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Color(0xff8D3F00)),
                 ),
               ),
             ),
@@ -116,31 +137,38 @@ class _product_descriptionState extends State<product_description> {
                   width: 350,
                   height: 60,
                   decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xff7D7D7D),
-                        spreadRadius: -1,
-                        blurRadius:7,
-                        offset: Offset(0, 10),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white
-                  ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xff7D7D7D),
+                          spreadRadius: -1,
+                          blurRadius: 7,
+                          offset: Offset(0, 10),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
-                        child: Text("Size" ,style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
+                        child: Text(
+                          "Size",
+                          style: TextStyle(fontFamily: "Bebas", fontSize: 25),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
-                        child: Text(widget.size,style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),),
+                        child: Text(
+                          widget.size,
+                          style: TextStyle(
+                              fontFamily: "Bebas",
+                              fontSize: 25,
+                              color: Color(0xff8D3F00)),
+                        ),
                       )
                     ],
                   ),
-
                 ),
               ),
             ),
@@ -157,27 +185,34 @@ class _product_descriptionState extends State<product_description> {
                         BoxShadow(
                           color: Color(0xff7D7D7D),
                           spreadRadius: -1,
-                          blurRadius:7,
+                          blurRadius: 7,
                           offset: Offset(0, 10),
                         )
                       ],
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.white
-                  ),
+                      color: Colors.white),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
-                        child: Text("Price",style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
+                        child: Text(
+                          "Price",
+                          style: TextStyle(fontFamily: "Bebas", fontSize: 25),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
-                        child: Text(widget.price,style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),),
+                        child: Text(
+                          widget.price,
+                          style: TextStyle(
+                              fontFamily: "Bebas",
+                              fontSize: 25,
+                              color: Color(0xff8D3F00)),
+                        ),
                       )
                     ],
                   ),
-
                 ),
               ),
             ),
@@ -194,94 +229,130 @@ class _product_descriptionState extends State<product_description> {
                         BoxShadow(
                           color: Color(0xff7D7D7D),
                           spreadRadius: -1,
-                          blurRadius:7,
+                          blurRadius: 7,
                           offset: Offset(0, 10),
                         )
                       ],
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.white
-                  ),
+                      color: Colors.white),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
-                        child: Text("Quantity",style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
+                        child: Text(
+                          "Quantity",
+                          style: TextStyle(fontFamily: "Bebas", fontSize: 25),
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Container(
-
-                          child: Row(
-                            children: [
-
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Container(
+                            child: Row(children: [
                               //remove
-                              Container(
-                                width: 35,
-                                height: 35,
-                                child: Icon(color: Colors.white,Icons.remove),
-                              decoration: BoxDecoration(color: Color(0xffFFC107),shape: BoxShape.circle),),
+                              GestureDetector(
+                                onTap: () {
+                                  if(quantity>1){
+                                    setState(() {
+                                      quantity--;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  child:
+                                      Icon(color: Colors.white, Icons.remove),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffFFC107),
+                                      shape: BoxShape.circle),
+                                ),
+                              ),
 
                               //number
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Text("1",style: TextStyle(fontFamily: "Bebas",fontSize: 25),),
+                                child: Text(
+                                  quantity.toString(),
+                                  style: TextStyle(
+                                      fontFamily: "Bebas", fontSize: 25),
+                                ),
                               ),
 
                               //add
-                              Container(
-                                width: 35,
-                                height: 35,
-                                child: Icon(color: Colors.white,Icons.add),
-                                decoration: BoxDecoration(color: Color(0xffFFC107),shape: BoxShape.circle),),
+                              GestureDetector(
+                                onTap:(){
+                                    setState(() {
+                                      quantity++;
+                                    });
 
-
-                            ]
-                          ),
-                        )
-
-                      ),
+                                },
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  child: Icon(color: Colors.white, Icons.add),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffFFC107),
+                                      shape: BoxShape.circle),
+                                ),
+                              ),
+                            ]),
+                          )),
                     ],
                   ),
-
                 ),
               ),
             ),
-
 
             //Add to Cart
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => cart(),));
-                  },
-                  child: Container(
-                    width: 200,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff7D7D7D),
-                            spreadRadius: -1,
-                            blurRadius:7,
-                            offset: Offset(0, 10),
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        color: Color(0xffFFC107),
+            Consumer<class_cart_provider>(
+              builder: (context, vm, child) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        final item = {
+                          'name': widget.name,
+                          'image': widget.image,
+                          'price': widget.price,
+                          'quantity': quantity
+                        };
+
+                        vm.cart_items.contains(item)
+                            ? vm.remove_cart_item(item)
+                            : vm.add_cart_item(item);
+
+
+                      },
+                      child: Container(
+                          width: 200,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0xff7D7D7D),
+                                spreadRadius: -1,
+                                blurRadius: 7,
+                                offset: Offset(0, 10),
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(30),
+                            color: Color(0xffFFC107),
+                          ),
+                          child: Center(
+                              child: Text(
+                            "Add to cart",
+                            style: TextStyle(
+                                fontFamily: "Bebas",
+                                fontSize: 25,
+                                color: Color(0xff8D3F00)),
+                          ))),
                     ),
-                    child: Center(child: Text("Add to cart",style: TextStyle(fontFamily: "Bebas",fontSize: 25,color: Color(0xff8D3F00)),))
-
                   ),
-                ),
-              ),
-            ),
-
-
-
-
+                );
+              },
+            )
           ],
         ),
       ),
