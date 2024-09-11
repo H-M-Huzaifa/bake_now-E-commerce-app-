@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Bake Now',
           theme: ThemeData(
             // This is the theme of your application.
             //

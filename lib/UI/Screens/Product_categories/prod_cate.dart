@@ -85,11 +85,11 @@ class _prod_cateState extends State<prod_cate> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => product_description(
-                                name : list[index]['name'].toString(),
-                                image : list[index]['image'].toString(),
-                                description: list[index]['description'].toString(),
-                                size: list[index]['size'].toString(),
-                                price: list[index]['price'].toString(),
+                                name : list[index]['name'],
+                                image : list[index]['image'],
+                                description: list[index]['description'],
+                                size: list[index]['size'],
+                                price: list[index]['price'],
                               ),
                             ));
 
@@ -141,7 +141,7 @@ class _prod_cateState extends State<prod_cate> {
                                           fontSize: 18),
                                     ),
                                     Text(
-                                      "Rs " + list[index]['price'],
+                                      "Rs " + list[index]['price']+"/-",
                                       style: TextStyle(
                                           fontSize: 18, fontFamily: "Bebas"),
                                     ),

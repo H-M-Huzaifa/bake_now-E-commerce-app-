@@ -95,8 +95,10 @@ class _product_descriptionState extends State<product_description> {
                                 badges.BadgePosition.topEnd(end: -10, top: -10),
                             badgeAnimation: badges.BadgeAnimation.slide(),
                             badgeContent: Text(
-                              instance_cart_provider.cart_items.length>=1 ?
-                              instance_cart_provider.cart_items.length.toString() : "",
+                              instance_cart_provider.cart_items.length >= 1
+                                  ? instance_cart_provider.cart_items.length
+                                      .toString()
+                                  : "",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
@@ -204,7 +206,7 @@ class _product_descriptionState extends State<product_description> {
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
                         child: Text(
-                          widget.price,
+                          widget.price +"/-",
                           style: TextStyle(
                               fontFamily: "Bebas",
                               fontSize: 25,
@@ -252,7 +254,7 @@ class _product_descriptionState extends State<product_description> {
                               //remove
                               GestureDetector(
                                 onTap: () {
-                                  if(quantity>1){
+                                  if (quantity > 1) {
                                     setState(() {
                                       quantity--;
                                     });
@@ -281,11 +283,10 @@ class _product_descriptionState extends State<product_description> {
 
                               //add
                               GestureDetector(
-                                onTap:(){
-                                    setState(() {
-                                      quantity++;
-                                    });
-
+                                onTap: () {
+                                  setState(() {
+                                    quantity++;
+                                  });
                                 },
                                 child: Container(
                                   width: 35,
@@ -312,18 +313,31 @@ class _product_descriptionState extends State<product_description> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: GestureDetector(
                       onTap: () {
+                        int? price=int.tryParse(widget.price);
+                        int finalprice = (price ?? 0) * (quantity ?? 0);
                         final item = {
+
                           'name': widget.name,
                           'image': widget.image,
                           'price': widget.price,
-                          'quantity': quantity
+                          'size': widget.size,
+                          'quantity' :quantity,
+                          'finalprice': finalprice
                         };
 
-                        vm.cart_items.contains(item)
-                            ? vm.remove_cart_item(item)
-                            : vm.add_cart_item(item);
+                        // vm.cart_items.contains(item)
+                        //     ? vm.remove_cart_item(item)
+                        //     :
+                        vm.add_cart_item(item);
 
-
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
+                            backgroundColor: Color(0xff8D3F00),
+                            content: Center(
+                                child: Text(
+                              "Added",
+                              style:
+                                  TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                            ))));
                       },
                       child: Container(
                           width: 200,
