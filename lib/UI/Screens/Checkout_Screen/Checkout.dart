@@ -1,10 +1,12 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
+import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class checkout extends StatefulWidget {
   const checkout({super.key});
@@ -197,69 +199,73 @@ class _checkoutState extends State<checkout> {
             ),
 
             //Total
-            Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text("Total"),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Text("2370/-"),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text("Standard Delivery Charges"),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Text("200/-"),
-                        )
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                          "Sub Total",
-                          style: TextStyle(
-                              color: Color(0xff8D3F00),
-                              fontFamily: "Bebas",
-                              fontSize: 20),
-                        ),
+            Consumer<class_cart_provider>(builder: (context, vm, child) {
+              int Delivery_Charges=200;
+              return Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text("Total"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Text(vm.totalprice.toStringAsFixed(0)+"/-"),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 20),
-                        child: Text(
-                          "2570/-",
-                          style: TextStyle(
-                              color: Color(0xff8D3F00),
-                              fontFamily: "Bebas",
-                              fontSize: 20),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Text("Standard Delivery Charges"),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Text("200/-",style: TextStyle(fontWeight: FontWeight.bold),),
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Subtotal",
+                            style: TextStyle(
+                                color: Color(0xff8D3F00),
+                                fontFamily: "Bebas",
+                                fontSize: 20),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Text(
+                            "Rs "+(vm.totalprice+Delivery_Charges).toStringAsFixed(0)+"/-",
+                            style: TextStyle(
+                                color: Color(0xff8D3F00),
+                                fontFamily: "Bebas",
+                                fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
             ),
 
             //Order Now

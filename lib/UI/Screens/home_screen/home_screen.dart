@@ -218,121 +218,126 @@ class _home_screenState extends State<home_screen> {
 
         Expanded(
           child: Container(
-            child: GridView.builder(
-              itemCount: instance_homescreen_provider.poplular_items.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
-              itemBuilder: (context, index) {
-                //final product = poplular_items[index];
-                //final isFavorite = instance_favourites.isFavourite(product);
-                return Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => product_description(
-                              name : instance_homescreen_provider.poplular_items[index]['name'].toString(),
-                              image : instance_homescreen_provider.poplular_items[index]['image'].toString(),
-                              description: instance_homescreen_provider.poplular_items[index]['description'].toString(),
-                              size: instance_homescreen_provider.poplular_items[index]['size'].toString(),
-                                price: instance_homescreen_provider.poplular_items[index]['price'].toString(),
-                            ),
-                          ));
-                    },
-                    child: Container(
-                      width: 170,
-                      height: 250,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(22),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              offset: Offset(0, 5),
-                            ),
-                          ]),
-                      child: Column(
-                        children: [
-                          //Image
-                          Image(
-                            image: AssetImage(instance_homescreen_provider.poplular_items[index]['image']),
-                            width: 150,
-                            height: 100,
-                          ),
-
-                          //Name
-                          Text(
-                            instance_homescreen_provider.poplular_items[index]['name'],
-                            style: TextStyle(
-                              fontFamily: "Bebas",
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    instance_homescreen_provider.poplular_items[index]['size'],
-                                    style: TextStyle(
-                                        fontFamily: "Bebas",
-                                        color: Colors.grey,
-                                        fontSize: 18),
-                                  ),
-                                  Text(
-                                    "Rs " + instance_homescreen_provider.poplular_items[index]['price'],
-                                    style: TextStyle(
-                                        fontSize: 18, fontFamily: "Bebas"),
-                                  ),
-                                ],
+            child: Consumer<class_prod_cate_provider>(builder: (context, vm, child) {
+                  List<Map<String, dynamic>> list = vm.getPopularItems();
+              return GridView.builder(
+                itemCount: list.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
+                itemBuilder: (context, index) {
+                  //final product = poplular_items[index];
+                  //final isFavorite = instance_favourites.isFavourite(product);
+                  return Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => product_description(
+                                name : list[index]['name'].toString(),
+                                image : list[index]['image'].toString(),
+                                description: list[index]['description'].toString(),
+                                size: list[index]['size'].toString(),
+                                price: list[index]['price'].toString(),
                               ),
-                              Consumer<class_fav_provider>(
-                                builder: (context, vm, child) {
-                                  return InkWell(
-                                    onTap: () {
-                                      // instance_favourites.toggleFavourite(poplular_items[index]);
-                                      vm.favourites.contains(instance_homescreen_provider.poplular_items[index])
-                                          ? vm.remove_fav_item(instance_homescreen_provider.poplular_items[index])
-                                          : vm.add_fav_item(instance_homescreen_provider.poplular_items[index]);
-                                    },
-                                    child:
-                                        vm.favourites.contains(instance_homescreen_provider.poplular_items[index])
-                                            ? Icon(
-                                                Icons.favorite,
-                                                color: Colors.red,
-                                              )
-                                            : Icon(Icons.favorite_outline),
-                                  );
-                                  // IconButton(
-                                  //   icon:
-                                  //   vm.favourites.contains(poplular_items[index])
-                                  //       ? Icon(
-                                  //     Icons.favorite,
-                                  //     color: Colors.red,
-                                  //   )
-                                  //       : Icon(Icons.favorite_border),
-                                  //   onPressed: () {
-                                  //     instance_favourites
-                                  //         .toggleFavourite(product);
-                                  //   },
-                                  // );
-                                },
+                            ));
+                      },
+                      child: Container(
+                        width: 170,
+                        height: 250,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(22),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 2,
+                                blurRadius: 2,
+                                offset: Offset(0, 5),
                               ),
-                            ],
-                          ),
-                        ],
+                            ]),
+                        child: Column(
+                          children: [
+                            //Image
+                            Image(
+                              image: AssetImage(list[index]['image']),
+                              width: 150,
+                              height: 100,
+                            ),
+
+                            //Name
+                            Text(
+                              list[index]['name'],
+                              style: TextStyle(
+                                fontFamily: "Bebas",
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      list[index]['size'],
+                                      style: TextStyle(
+                                          fontFamily: "Bebas",
+                                          color: Colors.grey,
+                                          fontSize: 18),
+                                    ),
+                                    Text(
+                                      "Rs " + list[index]['price'],
+                                      style: TextStyle(
+                                          fontSize: 18, fontFamily: "Bebas"),
+                                    ),
+                                  ],
+                                ),
+                                Consumer<class_fav_provider>(
+                                  builder: (context, vm, child) {
+                                    return InkWell(
+                                      onTap: () {
+                                        // instance_favourites.toggleFavourite(poplular_items[index]);
+                                        vm.favourites.contains(list[index])
+                                            ? vm.remove_fav_item(list[index])
+                                            : vm.add_fav_item(list[index]);
+                                      },
+                                      child:
+                                      vm.favourites.contains(list[index])
+                                          ? Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                      )
+                                          : Icon(Icons.favorite_outline),
+                                    );
+                                    // IconButton(
+                                    //   icon:
+                                    //   vm.favourites.contains(poplular_items[index])
+                                    //       ? Icon(
+                                    //     Icons.favorite,
+                                    //     color: Colors.red,
+                                    //   )
+                                    //       : Icon(Icons.favorite_border),
+                                    //   onPressed: () {
+                                    //     instance_favourites
+                                    //         .toggleFavourite(product);
+                                    //   },
+                                    // );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              );
+            },
+
             ),
           ),
         ),

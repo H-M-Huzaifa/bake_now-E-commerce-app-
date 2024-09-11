@@ -110,7 +110,7 @@ class _cartState extends State<cart> {
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                                  child: Text(vm.cart_items[index]['finalprice'].toString() +"/-",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23,fontFamily: 'Bebas'),),
+                                                  child: Text("Rs "+vm.cart_items[index]['finalprice'].toString() +"/-",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23,fontFamily: 'Bebas'),),
                                                 )
                                               ],
                                             ),),
@@ -146,8 +146,8 @@ class _cartState extends State<cart> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 20),
-                                      child: Text(
-                                        vm.totalprice.toString()+"/-",
+                                      child: Text("Rs "+
+                                        vm.totalprice.toStringAsFixed(0)+"/-",
                                         style: TextStyle(
                                             color: Color(0xff8D3F00),
                                             fontFamily: "Bebas",

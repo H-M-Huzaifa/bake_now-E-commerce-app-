@@ -206,7 +206,7 @@ class _product_descriptionState extends State<product_description> {
                       Padding(
                         padding: const EdgeInsets.only(right: 20),
                         child: Text(
-                          widget.price +"/-",
+                          "Rs "+widget.price +"/-",
                           style: TextStyle(
                               fontFamily: "Bebas",
                               fontSize: 25,
