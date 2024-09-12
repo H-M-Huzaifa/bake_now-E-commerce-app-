@@ -18,10 +18,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'services/firebase_options.dart';
 
-void main() {
+void main()async{
 
   //lock screen oreintation
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   SystemChrome.setPreferredOrientations([
   DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

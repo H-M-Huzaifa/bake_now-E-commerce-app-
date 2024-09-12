@@ -16,4 +16,9 @@ class class_prod_desc with ChangeNotifier{
     _quantity++;
     notifyListeners();
   }
+
+  void reset_quantity(){
+    _quantity=1;
+    notifyListeners();
+  }
 }

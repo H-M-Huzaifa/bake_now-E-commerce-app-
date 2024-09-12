@@ -31,12 +31,21 @@ class product_description extends StatefulWidget {
 }
 
 class _product_descriptionState extends State<product_description> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      Provider.of<class_prod_desc>(context,listen: false).reset_quantity();
+    });
+  }
   // int quantity = 1; // Add a quantity field
 
   @override
   Widget build(BuildContext context) {
     final instance_cart_provider = Provider.of<class_cart_provider>(context);
     final instance_prod_desc_provider = Provider.of<class_prod_desc>(context);
+    //instance_prod_desc_provider.reset_quantity();
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
       body: SingleChildScrollView(
