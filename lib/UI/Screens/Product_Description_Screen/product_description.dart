@@ -1,7 +1,8 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
-import 'package:bake_now/UI/Screens/Product_categories/prod_cate_provider.dart';
+import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description_provider.dart';
+import 'package:bake_now/UI/Screens/Product_categories/product_category_provider.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,12 @@ class product_description extends StatefulWidget {
 }
 
 class _product_descriptionState extends State<product_description> {
-  int quantity = 1; // Add a quantity field
+  // int quantity = 1; // Add a quantity field
 
   @override
   Widget build(BuildContext context) {
     final instance_cart_provider = Provider.of<class_cart_provider>(context);
+    final instance_prod_desc_provider = Provider.of<class_prod_desc>(context);
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
       body: SingleChildScrollView(
@@ -247,58 +249,67 @@ class _product_descriptionState extends State<product_description> {
                           style: TextStyle(fontFamily: "Bebas", fontSize: 25),
                         ),
                       ),
-                      Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: Container(
-                            child: Row(children: [
-                              //remove
-                              GestureDetector(
-                                onTap: () {
-                                  if (quantity > 1) {
-                                    setState(() {
-                                      quantity--;
-                                    });
-                                  }
-                                },
-                                child: Container(
-                                  width: 35,
-                                  height: 35,
-                                  child:
-                                      Icon(color: Colors.white, Icons.remove),
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffFFC107),
-                                      shape: BoxShape.circle),
-                                ),
-                              ),
+                      Consumer<class_prod_desc>(builder: (context, vm, child) {
+                        return Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Container(
+                              child: Row(children: [
+                                //remove
+                                GestureDetector(
+                                  onTap: () {
+                                    vm.quantity_decrement();
 
-                              //number
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Text(
-                                  quantity.toString(),
-                                  style: TextStyle(
-                                      fontFamily: "Bebas", fontSize: 25),
-                                ),
-                              ),
 
-                              //add
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    quantity++;
-                                  });
-                                },
-                                child: Container(
-                                  width: 35,
-                                  height: 35,
-                                  child: Icon(color: Colors.white, Icons.add),
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffFFC107),
-                                      shape: BoxShape.circle),
+                                    // if (quantity > 1) {
+                                    //   setState(() {
+                                    //     quantity--;
+                                    //   });
+                                    // }
+                                  },
+                                  child: Container(
+                                    width: 35,
+                                    height: 35,
+                                    child:
+                                    Icon(color: Colors.white, Icons.remove),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffFFC107),
+                                        shape: BoxShape.circle),
+                                  ),
                                 ),
-                              ),
-                            ]),
-                          )),
+
+                                //number
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 15),
+                                  child: Text(
+                                    vm.quantity.toString(),
+                                    style: TextStyle(
+                                        fontFamily: "Bebas", fontSize: 25),
+                                  ),
+                                ),
+
+                                //add
+                                GestureDetector(
+                                  onTap: () {
+                                    vm.quantity_increment();
+                                    // setState(() {
+                                    //   quantity++;
+                                    // });
+
+                                  },
+                                  child: Container(
+                                    width: 35,
+                                    height: 35,
+                                    child: Icon(color: Colors.white, Icons.add),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffFFC107),
+                                        shape: BoxShape.circle),
+                                  ),
+                                ),
+                              ]),
+                            ));
+                      },
+
+                      ),
                     ],
                   ),
                 ),
@@ -314,14 +325,14 @@ class _product_descriptionState extends State<product_description> {
                     child: GestureDetector(
                       onTap: () {
                         int? price=int.tryParse(widget.price);
-                        int finalprice = (price ?? 0) * (quantity ?? 0);
+                        int finalprice = (price ?? 0) * (instance_prod_desc_provider.quantity ?? 0);
                         final item = {
 
                           'name': widget.name,
                           'image': widget.image,
                           'price': widget.price,
                           'size': widget.size,
-                          'quantity' :quantity,
+                          'quantity' :instance_prod_desc_provider.quantity,
                           'finalprice': finalprice
                         };
 
