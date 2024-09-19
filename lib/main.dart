@@ -10,6 +10,9 @@ import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen_provider.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
+import 'package:bake_now/UI/Screens/sign_in&up/signin_provider.dart';
+import 'package:bake_now/UI/Screens/sign_in&up/signup.dart';
+import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:bake_now/UI/Screens/splash_screen/splash_screen.dart';
 import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +47,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => class_cart_provider()),
           ChangeNotifierProvider(create: (_) => class_prod_cate_provider()),
           ChangeNotifierProvider(create: (_) => class_prod_desc()),
+          ChangeNotifierProvider(create: (_) => class_sign_up_provider()),
+          ChangeNotifierProvider(create: (_) => class_sign_in_provider()),
 
         ],
         child: MaterialApp(
@@ -68,7 +73,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffFFC107)),
             useMaterial3: true,
           ),
-          home: splash_screen(),
+          home: signin(),
         ));
   }
 }

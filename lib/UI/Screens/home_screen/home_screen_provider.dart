@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class class_homescreen_provider with ChangeNotifier{
   List<Map<String, dynamic>> _list_categories = [
-    {"name": "Sweets", "image": "assets/icons/ladu.png"},
+    {
+      "name": "Sweets", "image": "assets/icons/ladu.png"
+    },
+
     {"name": "Cookies", "image": "assets/icons/cookie.png"},
     {"name": "Cakes", "image": "assets/icons/cake.png"},
     {"name": "Pastries", "image": "assets/icons/pastry.png"},

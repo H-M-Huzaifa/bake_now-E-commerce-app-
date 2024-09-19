@@ -128,7 +128,7 @@ class _home_screenState extends State<home_screen> {
                   child: TextField(
                     onTapOutside: (event) => () {},
                     decoration: InputDecoration(
-                      suffixIcon: Icon(Icons.search),
+                      prefixIcon: Icon(Icons.search),
                       hintText: "search",
                       fillColor: Colors.white,
                       filled: true,

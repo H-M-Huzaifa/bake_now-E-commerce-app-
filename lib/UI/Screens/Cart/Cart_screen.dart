@@ -23,6 +23,7 @@ class _cartState extends State<cart> {
         body: Center(
           child: Column(
             children: [
+
               //app bar
               Padding(
                 padding: const EdgeInsets.only(top: 50),
@@ -109,7 +110,7 @@ class _cartState extends State<cart> {
                                                   child: Text(vm.cart_items[index]['size']+"  x"+ vm.cart_items[index]['quantity'].toString(),style: TextStyle(color: Colors.grey,fontSize: 20,fontFamily: 'Bebas'),),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                                  padding: const EdgeInsets.only(bottom: 7,top: 5.0),
                                                   child: Text("Rs "+vm.cart_items[index]['finalprice'].toString() +"/-",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23,fontFamily: 'Bebas'),),
                                                 )
                                               ],
@@ -128,6 +129,8 @@ class _cartState extends State<cart> {
                               ),
                             ),
 
+
+                            //Total Price
                             Container(
                               child: Column(children: [
                                 Divider(),

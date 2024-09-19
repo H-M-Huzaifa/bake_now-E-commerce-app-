@@ -17,8 +17,8 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
   List<Widget> Screens = [
     home_screen(),
     favourite_screen(),
-    user_profile(),
     order_history(),
+    user_profile(),
   ];
 
   int selectedstate = 0;
@@ -32,13 +32,14 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
       icon: Icons.favorite_border,
       title: 'Favourite',
     ),
-    TabItem(
-      icon: Icons.account_box,
-      title: 'Profile',
-    ),
+
     TabItem(
       icon: Icons.history,
       title: 'History',
+    ),
+    TabItem(
+      icon: Icons.account_box,
+      title: 'Profile',
     ),
   ];
 
