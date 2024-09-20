@@ -69,7 +69,7 @@ class _home_screenState extends State<home_screen> {
                       },
                       child: CircleAvatar(
                         maxRadius: 15,
-                        backgroundImage: AssetImage('assets/images/boy.jpg'),
+                        backgroundImage: AssetImage('assets/images/avatar.png'),
                       ),
                     ),
                     Text(
