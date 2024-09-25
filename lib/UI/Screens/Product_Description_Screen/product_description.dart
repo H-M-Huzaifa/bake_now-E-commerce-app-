@@ -58,7 +58,7 @@ class _product_descriptionState extends State<product_description> {
               height: 460,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                    fit: BoxFit.scaleDown, image: AssetImage(widget.image)),
+                    fit: BoxFit.scaleDown, image: NetworkImage(widget.image)),
                 color: Color(0xffFFC107),
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(150),

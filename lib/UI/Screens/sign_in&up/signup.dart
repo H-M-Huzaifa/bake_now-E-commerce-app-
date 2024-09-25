@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,44 +83,66 @@ class _signupState extends State<signup> {
                   ),
                 ),
 
-                // Profile Image
-                Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    shape: BoxShape.circle,
-                  ),
-                  child: vm.imageUrl != null
-                      ? ClipOval(
-                    child: Image.network(
-                      vm.imageUrl!,
-                      fit: BoxFit.cover,
-                      width: 150,
-                      height: 150,
-                    ),
-                  )
-                      : ClipOval(
-                    child: Image.asset(
-                      'assets/images/avatar.png', // Default avatar image
-                      fit: BoxFit.cover,
-                      width: 150,
-                      height: 150,
-                    ),
-                  ),
-                ),
+                // Profile Image Old
+                // Container(
+                //   height: 150,
+                //   width: 150,
+                //   decoration: BoxDecoration(
+                //     color: Colors.grey.shade300,
+                //     shape: BoxShape.circle,
+                //   ),
+                //   child: vm.imageUrl != null
+                //       ? ClipOval(
+                //     child: Image.network(
+                //       vm.imageUrl!,
+                //       fit: BoxFit.cover,
+                //       width: 150,
+                //       height: 150,
+                //     ),
+                //   )
+                //       : ClipOval(
+                //     child: Image.asset(
+                //       'assets/images/avatar.png', // Default avatar image
+                //       fit: BoxFit.cover,
+                //       width: 150,
+                //       height: 150,
+                //     ),
+                //   ),
+                // ),
 
                 // Button to pick and upload image
-                Center(
-                  child: IconButton(
-                    onPressed: () async {
-                      // This will trigger image picking and uploading in the provider
-                      await vm.pickAndUploadImage();
-                      // The UI will automatically update because notifyListeners() is called in the provider
-                    },
-                    icon: Icon(Icons.edit),
-                  ),
+                // Center(
+                //   child: IconButton(
+                //     onPressed: () async {
+                //       // This will trigger image picking and uploading in the provider
+                //       await vm.pickAndUploadImage();
+                //       // The UI will automatically update because notifyListeners() is called in the provider
+                //     },
+                //     icon: Icon(Icons.edit),
+                //   ),
+                // ),
+
+                //Profile Image New
+                //Profile Image
+                Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+                  return Stack(
+                      children:[
+                        CircleAvatar(
+                          maxRadius: 80,
+                          backgroundImage: vm.imageUrl != null
+                              ? NetworkImage(vm.imageUrl!) // Network image if available
+                              : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
+                        ),
+                        Positioned(right: -10,bottom: 0,child: IconButton(onPressed: (){
+                          vm.pickAndUploadImage();
+                        },icon: Icon(Icons.edit),)),
+                      ]
+                  );
+
+                },
                 ),
+
+
 
               //Text Fields
               Container(

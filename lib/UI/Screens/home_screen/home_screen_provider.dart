@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class class_homescreen_provider with ChangeNotifier{
-  List<Map<String, dynamic>> _list_categories = [
-    {
-      "name": "Sweets", "image": "assets/icons/ladu.png"
-    },
+  // List<Map<String, dynamic>> _list_categories = [
+  //   {
+  //     "name": "Sweets", "image": "assets/icons/ladu.png"
+  //   },
+  //
+  //   {"name": "Cookies", "image": "assets/icons/cookie.png"},
+  //   {"name": "Cakes", "image": "assets/icons/cake.png"},
+  //   {"name": "Pastries", "image": "assets/icons/pastry.png"},
+  //   {"name": "Snacks", "image": "assets/icons/samosa.png"},
+  //   {"name": "Fast Food", "image": "assets/icons/fast-food.png"},
+  // ];
 
-    {"name": "Cookies", "image": "assets/icons/cookie.png"},
-    {"name": "Cakes", "image": "assets/icons/cake.png"},
-    {"name": "Pastries", "image": "assets/icons/pastry.png"},
-    {"name": "Snacks", "image": "assets/icons/samosa.png"},
-    {"name": "Fast Food", "image": "assets/icons/fast-food.png"},
-  ];
-  List<Map<String, dynamic>> get list_categories => _list_categories ;
+  //List<Map<String, dynamic>> get list_categories => _list_categories ;
 
   // //Popular Items
   // List<Map<String, dynamic>> _poplular_items = [

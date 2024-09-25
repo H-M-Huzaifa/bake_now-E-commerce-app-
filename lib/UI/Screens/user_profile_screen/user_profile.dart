@@ -1,8 +1,11 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
+import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class user_profile extends StatefulWidget {
   const user_profile({super.key});
@@ -52,11 +55,11 @@ class _user_profileState extends State<user_profile> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
+                      FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => signin(),
-                          ));
+                          )));
                     },
                     child: Icon(
                       Icons.logout,
@@ -69,14 +72,22 @@ class _user_profileState extends State<user_profile> {
             ),
 
             //Profile Image
-            Stack(
-              children:[
-                CircleAvatar(
-                maxRadius: 80,
-                backgroundImage: AssetImage("assets/images/boy.jpg"),
-              ),
-                Positioned(right: 20,bottom: 20,child: Icon(Icons.edit)),
-              ]
+            Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+              return Stack(
+                children:[
+                  CircleAvatar(
+                  maxRadius: 80,
+                  backgroundImage: vm.imageUrl != null
+                      ? NetworkImage(vm.imageUrl!) // Network image if available
+                      : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
+                ),
+                  Positioned(right: -10,bottom: 0,child: IconButton(onPressed: (){
+                    vm.pickAndUploadImage();
+                  },icon: Icon(Icons.edit),)),
+                ]
+              );
+
+            },
             ),
 
             //Text Fields

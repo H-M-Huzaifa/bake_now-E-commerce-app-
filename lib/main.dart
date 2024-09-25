@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Color(0xffFFC107)),
             useMaterial3: true,
           ),
-          home: signin(),
+          home: splash_screen(),
         ));
   }
 }

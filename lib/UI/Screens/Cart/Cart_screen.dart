@@ -98,7 +98,8 @@ class _cartState extends State<cart> {
                                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
 
                                           children: [
-                                            Image(height: height_MQ*0.09,image: AssetImage(vm.cart_items[index]['image'])),
+                                            Image(height: height_MQ*0.09,image: NetworkImage(vm.cart_items[index]['image']),errorBuilder: (context, error, stackTrace) =>
+                                                Icon(Icons.error),),
                                             Container(child: Column(
                                               children: [
                                                 Padding(

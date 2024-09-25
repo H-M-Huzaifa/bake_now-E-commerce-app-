@@ -6,7 +6,9 @@ import 'package:bake_now/UI/Screens/Product_categories/product_category.dart';
 import 'package:bake_now/UI/Screens/Product_categories/product_category_provider.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen_provider.dart';
+import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,10 +24,16 @@ class home_screen extends StatefulWidget {
 
 class _home_screenState extends State<home_screen> {
   @override
+  void initState() {
+    super.initState();
+    Provider.of<class_prod_cate_provider>(context, listen: false).populatePopularItems();
+  }
+  @override
   Widget build(BuildContext context) {
-    final instance_homescreen_provider = Provider.of<class_homescreen_provider>(context);
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     final instance_cart_provider = Provider.of<class_cart_provider>(context);
-    final instance_prod_cate_provider = Provider.of<class_prod_cate_provider>(context);
+    final instance_prod_cate_provider = Provider.of<class_prod_cate_provider>(context,listen: false);
+
     return Scaffold(
       backgroundColor: Color(0xffFFF7DE),
 
@@ -67,10 +75,18 @@ class _home_screenState extends State<home_screen> {
                               builder: (context) => user_profile(),
                             ));
                       },
-                      child: CircleAvatar(
-                        maxRadius: 15,
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
+                      child: Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+                        return CircleAvatar(
+                          maxRadius: 15,
+                          backgroundColor: Colors.grey.shade300,
+                          backgroundImage: vm.imageUrl != null
+                              ? NetworkImage(vm.imageUrl!) // Network image if available
+                              : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
+                        );
+
+                      },
                       ),
+
                     ),
                     Text(
                       "Home",
@@ -152,56 +168,139 @@ class _home_screenState extends State<home_screen> {
           ),
         ),
 
-        //List of Categories
+        // //List of Categories
+        // Container(
+        //   height: 100,
+        //   child: ListView.builder(
+        //     scrollDirection: Axis.horizontal,
+        //     itemCount: instance_homescreen_provider.list_categories.length,
+        //     itemBuilder: (context, index) {
+        //       return Padding(
+        //         padding: const EdgeInsets.all(5.0),
+        //         child: InkWell(
+        //           onTap: () {
+        //             Navigator.push(
+        //                 context,
+        //                 MaterialPageRoute(
+        //                   builder: (context) => prod_cate(
+        //                     name: instance_homescreen_provider.list_categories[index]['name'],
+        //                     allItems: instance_prod_cate_provider.allItems,
+        //                     index: index,
+        //                   ),
+        //                 ));
+        //           },
+        //           child: Container(
+        //             width: 70,
+        //             height: 70,
+        //             decoration: BoxDecoration(
+        //                 boxShadow: [
+        //                   BoxShadow(
+        //                       color: Color(0xff7D7D7D),
+        //                       spreadRadius: -5,
+        //                       blurRadius: 4,
+        //                       offset: Offset(-10, 5)),
+        //                 ],
+        //                 borderRadius: BorderRadius.circular(30),
+        //                 color: Color(0xffFFC107)),
+        //             child: Column(
+        //               mainAxisAlignment: MainAxisAlignment.center,
+        //               children: [
+        //                 Image(
+        //                     width: 40,
+        //                     height: 40,
+        //                     image: AssetImage(instance_homescreen_provider.list_categories[index]["image"])),
+        //                 Text(
+        //                   instance_homescreen_provider.list_categories[index]['name'],
+        //                   style: TextStyle(fontFamily: "Bebas", fontSize: 15),
+        //                 ),
+        //               ],
+        //             ),
+        //           ),
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ),
+
+
+        // List of Categories from Firestore
         Container(
           height: 100,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: instance_homescreen_provider.list_categories.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => prod_cate(
-                            name: instance_homescreen_provider.list_categories[index]['name'],
-                            allItems: instance_prod_cate_provider.allItems,
-                            index: index,
+          child: FutureBuilder<QuerySnapshot>(
+            future: _firestore.collection('allitems').get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              if (snapshot.hasData) {
+                final allitems = snapshot.data!.docs;
+
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: allitems.length,
+                  itemBuilder: (context, index) {
+                    final item = allitems[index].data() as Map<String, dynamic>;
+
+                    return Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => prod_cate(
+                                name: item['name'],
+                                index: index,
+
+                                //before FB
+                                //allItems: instance_prod_cate_provider.allItems,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xff7D7D7D),
+                                  spreadRadius: -5,
+                                  blurRadius: 4,
+                                  offset: Offset(-10, 5)),
+                            ],
+                            borderRadius: BorderRadius.circular(30),
+                            color: Color(0xffFFC107),
                           ),
-                        ));
-                  },
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xff7D7D7D),
-                              spreadRadius: -5,
-                              blurRadius: 4,
-                              offset: Offset(-10, 5)),
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        color: Color(0xffFFC107)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image(
-                            width: 40,
-                            height: 40,
-                            image: AssetImage(instance_homescreen_provider.list_categories[index]["image"])),
-                        Text(
-                          instance_homescreen_provider.list_categories[index]['name'],
-                          style: TextStyle(fontFamily: "Bebas", fontSize: 15),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.network(
+                                item['image_url'],
+                                width: 40,
+                                height: 40,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Icon(Icons.error),
+                              ),
+                              Text(
+                                item['name'],
+                                style: TextStyle(fontFamily: "Bebas", fontSize: 15),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+                      ),
+                    );
+                  },
+                );
+              }
+
+              return Text("No categories available");
             },
           ),
         ),
@@ -216,36 +315,175 @@ class _home_screenState extends State<home_screen> {
           ),
         ),
 
+        //Before FB
+        // Expanded(
+        //   child: Container(
+        //     child: Consumer<class_prod_cate_provider>(builder: (context, vm, child) {
+        //           List<Map<String, dynamic>> list = vm.getPopularItems();
+        //       return GridView.builder(
+        //         itemCount: list.length,
+        //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //             mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
+        //         itemBuilder: (context, index) {
+        //           //final product = poplular_items[index];
+        //           //final isFavorite = instance_favourites.isFavourite(product);
+        //           return Center(
+        //             child: GestureDetector(
+        //               onTap: () {
+        //                 Navigator.push(
+        //                     context,
+        //                     MaterialPageRoute(
+        //                       builder: (context) => product_description(
+        //                         name : list[index]['name'].toString(),
+        //                         image : list[index]['image'].toString(),
+        //                         description: list[index]['description'].toString(),
+        //                         size: list[index]['size'].toString(),
+        //                         price: list[index]['price'].toString(),
+        //                       ),
+        //                     ));
+        //               },
+        //               child: Container(
+        //                 width: 170,
+        //                 height: 250,
+        //                 decoration: BoxDecoration(
+        //                     color: Colors.white,
+        //                     borderRadius: BorderRadius.circular(22),
+        //                     boxShadow: [
+        //                       BoxShadow(
+        //                         color: Colors.grey,
+        //                         spreadRadius: 2,
+        //                         blurRadius: 2,
+        //                         offset: Offset(0, 5),
+        //                       ),
+        //                     ]),
+        //                 child: Column(
+        //                   children: [
+        //                     //Image
+        //                     Image(
+        //                       image: AssetImage(list[index]['image']),
+        //                       width: 150,
+        //                       height: 100,
+        //                     ),
+        //
+        //                     //Name
+        //                     Text(
+        //                       list[index]['name'],
+        //                       style: TextStyle(
+        //                         fontFamily: "Bebas",
+        //                         fontSize: 22,
+        //                         fontWeight: FontWeight.bold,
+        //                       ),
+        //                     ),
+        //
+        //                     Row(
+        //                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //                       children: [
+        //                         Column(
+        //                           crossAxisAlignment: CrossAxisAlignment.start,
+        //                           children: [
+        //                             Text(
+        //                               list[index]['size'],
+        //                               style: TextStyle(
+        //                                   fontFamily: "Bebas",
+        //                                   color: Colors.grey,
+        //                                   fontSize: 18),
+        //                             ),
+        //                             Text(
+        //                               "Rs " + list[index]['price'],
+        //                               style: TextStyle(
+        //                                   fontSize: 18, fontFamily: "Bebas"),
+        //                             ),
+        //                           ],
+        //                         ),
+        //                         Consumer<class_fav_provider>(
+        //                           builder: (context, vm, child) {
+        //                             return InkWell(
+        //                               onTap: () {
+        //                                 // instance_favourites.toggleFavourite(poplular_items[index]);
+        //                                 vm.favourites.contains(list[index])
+        //                                     ? vm.remove_fav_item(list[index])
+        //                                     : vm.add_fav_item(list[index]);
+        //                               },
+        //                               child:
+        //                               vm.favourites.contains(list[index])
+        //                                   ? Icon(
+        //                                 Icons.favorite,
+        //                                 color: Colors.red,
+        //                               )
+        //                                   : Icon(Icons.favorite_outline),
+        //                             );
+        //                             // IconButton(
+        //                             //   icon:
+        //                             //   vm.favourites.contains(poplular_items[index])
+        //                             //       ? Icon(
+        //                             //     Icons.favorite,
+        //                             //     color: Colors.red,
+        //                             //   )
+        //                             //       : Icon(Icons.favorite_border),
+        //                             //   onPressed: () {
+        //                             //     instance_favourites
+        //                             //         .toggleFavourite(product);
+        //                             //   },
+        //                             // );
+        //                           },
+        //                         ),
+        //                       ],
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       );
+        //     },
+        //
+        //     ),
+        //   ),
+        // ),
+
+        //After FB
         Expanded(
           child: Container(
-            child: Consumer<class_prod_cate_provider>(builder: (context, vm, child) {
-                  List<Map<String, dynamic>> list = vm.getPopularItems();
-              return GridView.builder(
-                itemCount: list.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  //final product = poplular_items[index];
-                  //final isFavorite = instance_favourites.isFavourite(product);
-                  return Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: instance_prod_cate_provider
+                  .fetchPopularItemsFromFirebase(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text("No popular items found."));
+                }
+
+                List<Map<String, dynamic>> list = snapshot.data!;
+
+                return GridView.builder(
+                  itemCount: list.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 10, crossAxisSpacing: 5, crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => product_description(
-                                name : list[index]['name'].toString(),
-                                image : list[index]['image'].toString(),
+                                name: list[index]['name'].toString(),
+                                image: list[index]['image_url'].toString(),
                                 description: list[index]['description'].toString(),
                                 size: list[index]['size'].toString(),
                                 price: list[index]['price'].toString(),
                               ),
-                            ));
-                      },
-                      child: Container(
-                        width: 170,
-                        height: 250,
-                        decoration: BoxDecoration(
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 170,
+                          height: 250,
+                          decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(22),
                             boxShadow: [
@@ -255,92 +493,78 @@ class _home_screenState extends State<home_screen> {
                                 blurRadius: 2,
                                 offset: Offset(0, 5),
                               ),
-                            ]),
-                        child: Column(
-                          children: [
-                            //Image
-                            Image(
-                              image: AssetImage(list[index]['image']),
-                              width: 150,
-                              height: 100,
-                            ),
-
-                            //Name
-                            Text(
-                              list[index]['name'],
-                              style: TextStyle(
-                                fontFamily: "Bebas",
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              // Image
+                              Image.network(
+                                list[index]['image_url'],
+                                width: 150,
+                                height: 100,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Icon(Icons.error),
                               ),
-                            ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      list[index]['size'],
-                                      style: TextStyle(
-                                          fontFamily: "Bebas",
-                                          color: Colors.grey,
-                                          fontSize: 18),
-                                    ),
-                                    Text(
-                                      "Rs " + list[index]['price'],
-                                      style: TextStyle(
-                                          fontSize: 18, fontFamily: "Bebas"),
-                                    ),
-                                  ],
+                              // Name
+                              Text(
+                                list[index]['name'],
+                                style: TextStyle(
+                                  fontFamily: "Bebas",
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Consumer<class_fav_provider>(
-                                  builder: (context, vm, child) {
-                                    return InkWell(
-                                      onTap: () {
-                                        // instance_favourites.toggleFavourite(poplular_items[index]);
-                                        vm.favourites.contains(list[index])
-                                            ? vm.remove_fav_item(list[index])
-                                            : vm.add_fav_item(list[index]);
-                                      },
-                                      child:
-                                      vm.favourites.contains(list[index])
-                                          ? Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                      )
-                                          : Icon(Icons.favorite_outline),
-                                    );
-                                    // IconButton(
-                                    //   icon:
-                                    //   vm.favourites.contains(poplular_items[index])
-                                    //       ? Icon(
-                                    //     Icons.favorite,
-                                    //     color: Colors.red,
-                                    //   )
-                                    //       : Icon(Icons.favorite_border),
-                                    //   onPressed: () {
-                                    //     instance_favourites
-                                    //         .toggleFavourite(product);
-                                    //   },
-                                    // );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        list[index]['size'],
+                                        style: TextStyle(
+                                            fontFamily: "Bebas",
+                                            color: Colors.grey,
+                                            fontSize: 18),
+                                      ),
+                                      Text(
+                                        "Rs ${list[index]['price']}",
+                                        style: TextStyle(
+                                            fontSize: 18, fontFamily: "Bebas"),
+                                      ),
+                                    ],
+                                  ),
+                                  Consumer<class_fav_provider>(
+                                    builder: (context, vm, child) {
+                                      return InkWell(
+                                        onTap: () {
+                                          vm.favourites.contains(list[index])
+                                              ? vm.remove_fav_item(list[index])
+                                              : vm.add_fav_item(list[index]);
+                                        },
+                                        child: vm.favourites.contains(list[index])
+                                            ? Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                        )
+                                            : Icon(Icons.favorite_outline),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
-
+                    );
+                  },
+                );
+              },
             ),
           ),
         ),
+
       ]),
     );
   }
