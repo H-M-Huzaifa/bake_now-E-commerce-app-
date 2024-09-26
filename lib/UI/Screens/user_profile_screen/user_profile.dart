@@ -33,18 +33,17 @@ class _user_profileState extends State<user_profile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                      onTap: () {},
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => bottom_nav_bar(),
-                                ));
-                          },
-                          child: Icon(
-                              color: Color(0xff8D3F00),
-                              Icons.arrow_back_ios_new))),
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => bottom_nav_bar(),
+                              ));
+                        },
+                        child: Icon(
+                            color: Color(0xff8D3F00),
+                            Icons.arrow_back_ios_new)),
+
                   Text(
                     "My Profile",
                     style: TextStyle(
@@ -53,42 +52,58 @@ class _user_profileState extends State<user_profile> {
                         fontWeight: FontWeight.bold,
                         color: Color(0xff8D3F00)),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => signin(),
-                          )));
-                    },
-                    child: Icon(
-                      Icons.logout,
-                      color: Color(0xff8D3F00),
-                      size: 25,
-                    ),
+                  Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+                     return GestureDetector(
+                      onTap: () async{
+                        vm.clearImageData();
+                        await FirebaseAuth.instance.signOut();
+
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => signin(),));
+                      },
+                      child: Icon(
+                        Icons.logout,
+                        color: Color(0xff8D3F00),
+                        size: 25,
+                      ),
+                    );
+
+                  },
                   ),
                 ],
               ),
             ),
 
-            //Profile Image
+
+            // Profile Image
             Consumer<class_sign_up_provider>(builder: (context, vm, child) {
               return Stack(
-                children:[
+                children: [
                   CircleAvatar(
-                  maxRadius: 80,
-                  backgroundImage: vm.imageUrl != null
-                      ? NetworkImage(vm.imageUrl!) // Network image if available
-                      : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
-                ),
-                  Positioned(right: -10,bottom: 0,child: IconButton(onPressed: (){
-                    vm.pickAndUploadImage();
-                  },icon: Icon(Icons.edit),)),
-                ]
-              );
+                    maxRadius: 80,
+                    backgroundImage: vm.imageUrl != null
+                        ? NetworkImage(vm.imageUrl!) // Network image if available
+                        : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
+                  ),
+                  Positioned(
+                    right: -10,
+                    bottom: 0,
+                    child: IconButton(
+                      onPressed: () async {
+                        // Let the user pick a new image
+                        await vm.pickImage();
 
-            },
-            ),
+                        // After picking the image, upload and save it to Firestore
+                        if (vm.pickedImage != null) {
+                          await vm.uploadImageAndSaveToFirestore();
+                        }
+                      },
+                      icon: Icon(Icons.edit),
+                    ),
+                  ),
+                ],
+              );
+            }),
+
 
             //Text Fields
             Container(

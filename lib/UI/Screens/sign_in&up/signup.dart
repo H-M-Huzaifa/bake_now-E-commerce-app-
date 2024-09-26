@@ -129,12 +129,14 @@ class _signupState extends State<signup> {
                       children:[
                         CircleAvatar(
                           maxRadius: 80,
-                          backgroundImage: vm.imageUrl != null
+                          backgroundImage: vm.pickedImage != null
+                              ? FileImage(File(vm.pickedImage!.path)) // Show the picked image for preview
+                              : (vm.imageUrl != null
                               ? NetworkImage(vm.imageUrl!) // Network image if available
-                              : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
+                              : AssetImage('assets/images/avatar.png')) as ImageProvider, // Default avatar
                         ),
                         Positioned(right: -10,bottom: 0,child: IconButton(onPressed: (){
-                          vm.pickAndUploadImage();
+                          vm.pickImage();
                         },icon: Icon(Icons.edit),)),
                       ]
                   );
@@ -462,101 +464,146 @@ class _signupState extends State<signup> {
               ),
 
               //Create Account
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: GestureDetector(
-                    onTap: () async {
-
-                      // First, validate the form
-                      if (_formkey.currentState!.validate()) {
-
-                        // Now, check if passwords match
-                        if (confirmPass_controller.text.trim() == Password_controller.text.trim()) {
-                          setState(() {
-                            _isloading = true; // Show loading indicator
-                          });
-                          try {
-                            await auth
-                                .createUserWithEmailAndPassword(
-                                email: email_controller.text.trim(),
-                                password: Password_controller.text.trim())
-                                .then((value) {
-                              firestore.collection('users').doc(currentuser!.uid).set({
-                                'name': name_controller.text.trim(),
-                                'email' :email_controller.text.trim(),
-                                'address' :address_controller.text.trim(),
-                                'contact' :contact_controller.text.trim(),
-                                'created at' :DateTime.now(),
-                                'user ID' :currentuser!.uid,
-                                'image' : vm.imageUrl,
-                              });
-                              setState(() {
-                                _isloading = true; // Show loading indicator
-                              });
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => signin(),
-                                  ));
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
-                                  backgroundColor: Color(0xff8D3F00),
-                                  content: Center(
-                                      child: Text(
-                                        "Account Created Successfully!",
-                                        style:
-                                        TextStyle(fontSize: 20, fontFamily: 'Bebas'),
-                                      ))));
-                            }).onError((error, stackTrace) {
-                              setState(() {
-                                _isloading = true; // Show loading indicator
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
-                                  backgroundColor: Color(0xff8D3F00),
-                                  content: Center(
-                                      child: Text(
-                                        error.toString(),
-                                        style:
-                                        TextStyle(fontSize: 20, fontFamily: 'Bebas'),
-                                      ))));
-                            });
-                          } catch (e) {
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: GestureDetector(
+                      onTap: () async {
+                        // First, validate the form
+                        if (_formkey.currentState!.validate()) {
+                          // Now, check if passwords match
+                          if (confirmPass_controller.text.trim() == Password_controller.text.trim()) {
                             setState(() {
                               _isloading = true; // Show loading indicator
                             });
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
+                            try {
+                              // Create the user
+                              await auth.createUserWithEmailAndPassword(
+                                email: email_controller.text.trim(),
+                                password: Password_controller.text.trim(),
+                              ).then((value) async {
+                                // Fetch the current user (after sign-up)
+                                User? currentUser = auth.currentUser;
+
+                                if (currentUser != null) {
+                                  // First, upload the image (if selected)
+                                  if (vm.pickedImage != null) {
+                                    await vm.uploadImageAndSaveToFirestore();
+                                  }
+
+                                  // Save user data to Firestore
+                                  await firestore.collection('users').doc(currentUser.uid).set({
+                                    'name': name_controller.text.trim(),
+                                    'email': email_controller.text.trim(),
+                                    'address': address_controller.text.trim(),
+                                    'contact': contact_controller.text.trim(),
+                                    'created at': DateTime.now(),
+                                    'user ID': currentUser.uid,
+                                    'image': vm.imageUrl,  // Save the uploaded image URL
+                                  });
+
+                                  setState(() {
+                                    _isloading = false; // Hide loading indicator
+                                  });
+
+                                  // Navigate to the sign-in screen
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => signin(),
+                                    ),
+                                  );
+
+                                  // Show success message
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Color(0xff8D3F00),
+                                    content: Center(
+                                      child: Text(
+                                        "Account Created Successfully!",
+                                        style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                      ),
+                                    ),
+                                  ));
+                                } else {
+                                  // Handle error if user is not available after sign-up
+                                  setState(() {
+                                    _isloading = false; // Hide loading indicator
+                                  });
+
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Color(0xff8D3F00),
+                                    content: Center(
+                                      child: Text(
+                                        "User creation failed!",
+                                        style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                      ),
+                                    ),
+                                  ));
+                                }
+                              }).onError((error, stackTrace) {
+                                setState(() {
+                                  _isloading = false; // Hide loading indicator
+                                });
+
+                                // Show error message
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  duration: Duration(seconds: 2),
+                                  backgroundColor: Color(0xff8D3F00),
+                                  content: Center(
+                                    child: Text(
+                                      error.toString(),
+                                      style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                    ),
+                                  ),
+                                ));
+                              });
+                            } catch (e) {
+                              setState(() {
+                                _isloading = false; // Hide loading indicator
+                              });
+
+                              // Show error message
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                duration: Duration(seconds: 2),
                                 backgroundColor: Color(0xff8D3F00),
                                 content: Center(
-                                    child: Text(e.toString(),
-                                      style:
-                                      TextStyle(fontSize: 20, fontFamily: 'Bebas'),
-                                    ))));
-                          }
-                        } else {
-                          // Passwords don't match
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
+                                  child: Text(
+                                    e.toString(),
+                                    style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                  ),
+                                ),
+                              ));
+                            }
+                          } else {
+                            // Passwords don't match
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              duration: Duration(seconds: 2),
                               backgroundColor: Color(0xff8D3F00),
                               content: Center(
-                                  child: Text(
-                                    "Password Didn't Matched!",
-                                    style:
-                                    TextStyle(fontSize: 20, fontFamily: 'Bebas'),
-                                  ))));
-                        }
-
-                      } else {
-                        // Form validation failed
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
+                                child: Text(
+                                  "Password Didn't Matched!",
+                                  style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                ),
+                              ),
+                            ));
+                          }
+                        } else {
+                          // Form validation failed
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: Duration(seconds: 2),
                             backgroundColor: Color(0xff8D3F00),
                             content: Center(
-                                child: Text(
-                                  "Please Fill in the Required Fields",
-                                  style:
-                                  TextStyle(fontSize: 20, fontFamily: 'Bebas'),
-                                ))));
-                      }
-                    },
-                    child: Container(
+                              child: Text(
+                                "Please Fill in the Required Fields",
+                                style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                              ),
+                            ),
+                          ));
+                        }
+                      },
+                      child: Container(
                         width: 200,
                         height: 60,
                         decoration: BoxDecoration(
@@ -566,24 +613,31 @@ class _signupState extends State<signup> {
                               spreadRadius: -1,
                               blurRadius: 7,
                               offset: Offset(0, 10),
-                            )
+                            ),
                           ],
                           borderRadius: BorderRadius.circular(30),
                           color: Color(0xffFFC107),
                         ),
                         child: Center(
-                            child: _isloading? CircularProgressIndicator():Text(
-                              "Create Account",
-                              style: TextStyle(
-                                  fontFamily: "Bebas",
-                                  fontSize: 25,
-                                  color: Color(0xff8D3F00)),
-                            ))),
+                          child: _isloading
+                              ? CircularProgressIndicator()
+                              : Text(
+                            "Create Account",
+                            style: TextStyle(
+                              fontFamily: "Bebas",
+                              fontSize: 25,
+                              color: Color(0xff8D3F00),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
 
-              //Already have an account
+
+
+                //Already have an account
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: InkWell(

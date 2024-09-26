@@ -76,6 +76,7 @@ class _home_screenState extends State<home_screen> {
                             ));
                       },
                       child: Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+                        vm.fetchUserImage();
                         return CircleAvatar(
                           maxRadius: 15,
                           backgroundColor: Colors.grey.shade300,

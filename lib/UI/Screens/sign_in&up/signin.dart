@@ -2,6 +2,7 @@ import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin_provider.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup.dart';
+import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -250,29 +251,37 @@ class _signinState extends State<signin> {
                 ),
 
                 //New to this platform
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
+                Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+                return Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => signup(),
-                          ));
-                    },
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "New to this platform? ",
-                          style: TextStyle(fontSize: 12, color: Colors.grey)),
-                      TextSpan(
-                          text: "Signup",
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Color(0xffFFC107),
-                              fontWeight: FontWeight.bold))
-                    ])),
-                  ),
+                            builder: (context) {
+                              // Clear the provider's image data before navigating to the sign-up screen
+                              vm.clearImageData();
+                              return signup(); // Your sign-up screen widget
+                            },
+                          ),
+                        );
+                      },
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "New to this platform? ",
+                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                        TextSpan(
+                            text: "Signup",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Color(0xffFFC107),
+                                fontWeight: FontWeight.bold))
+                      ])),
+                    ),
+                  );
+                }
                 )
               ],
             ),

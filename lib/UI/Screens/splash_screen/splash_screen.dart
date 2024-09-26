@@ -24,6 +24,7 @@ class _splash_screenState extends State<splash_screen> {
     user=FirebaseAuth.instance.currentUser;
     Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
+
           context, MaterialPageRoute(builder: (context) =>  user!=null  ? bottom_nav_bar() : signin()));
     });
   }
