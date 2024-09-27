@@ -9,6 +9,7 @@ import 'package:bake_now/UI/Screens/home_screen/home_screen_provider.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -535,24 +536,25 @@ class _home_screenState extends State<home_screen> {
                                       ),
                                     ],
                                   ),
-                                  Consumer<class_fav_provider>(
-                                    builder: (context, vm, child) {
-                                      return InkWell(
-                                        onTap: () {
-                                          vm.favourites.contains(list[index])
-                                              ? vm.remove_fav_item(list[index])
-                                              : vm.add_fav_item(list[index]);
-                                        },
-                                        child: vm.favourites.contains(list[index])
-                                            ? Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                        )
-                                            : Icon(Icons.favorite_outline),
-                                      );
-                                    },
-                                  ),
-                                ],
+                          Consumer<class_fav_provider>(
+                            builder: (context, vm, child) {
+                              return InkWell(
+                                onTap: () {
+                                  String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+                                  if (userId.isNotEmpty) {
+                                    vm.favourites.contains(list[index])
+                                        ? vm.remove_fav_item(userId, list[index])
+                                        : vm.add_fav_item(userId, list[index]);
+                                  }
+                                },
+                                child: vm.favourites.contains(list[index])
+                                    ? Icon(Icons.favorite, color: Colors.red)
+                                    : Icon(Icons.favorite_outline),
+                              );
+                            },
+                          ),
+
+                          ],
                               ),
                             ],
                           ),

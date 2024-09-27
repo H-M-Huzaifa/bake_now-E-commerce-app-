@@ -1,32 +1,20 @@
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
-import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
-import 'package:bake_now/UI/Screens/home_screen/home_screen_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';  // For user ID
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class prod_cate extends StatefulWidget {
-
-  //Dynamic Code After Firebase
   final int index;
   final String name;
-
-  //Static Code before FIREBASE
-  //int index;
-  //String name;
-  //List<Map<String, List<Map<String, dynamic>>>> allItems;
 
   prod_cate({
     super.key,
     required this.index,
-  required this.name,
-
-    //static before FB
-    //required this.allItems,
+    required this.name,
   });
 
   @override
@@ -34,25 +22,21 @@ class prod_cate extends StatefulWidget {
 }
 
 class _prod_cateState extends State<prod_cate> {
-
-  //After FB
   late CollectionReference itemsRef;
-
-  //Before FB
-  //late List<Map<String, dynamic>> list;
+  String? userId;
 
   @override
-
   void initState() {
     super.initState();
+    userId = FirebaseAuth.instance.currentUser?.uid; // Get current user's ID
     itemsRef = FirebaseFirestore.instance
         .collection('allitems')
         .doc(widget.name)
         .collection('items');
-  //Before FB
-  // void initState() {
-  //   super.initState();
-  //   list = widget.allItems[widget.index][widget.name]!;  // Access the specific map
+
+    if (userId != null) {
+      Provider.of<class_fav_provider>(context, listen: false).fetchUserFavorites(userId!);
+    }
   }
 
   @override
@@ -63,24 +47,41 @@ class _prod_cateState extends State<prod_cate> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
-          //appbar
+          // Appbar
           Padding(
             padding: const EdgeInsets.only(top: 50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(onTap: (){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => bottom_nav_bar(),));},child: Icon(color: Color(0xff8D3F00), Icons.arrow_back_ios_new)),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => bottom_nav_bar()),
+                    );
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Color(0xff8D3F00),
+                  ),
+                ),
                 Text(
                   widget.name,
                   style: TextStyle(
-                      fontFamily: 'Bebas',
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff8D3F00)),
+                    fontFamily: 'Bebas',
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff8D3F00),
+                  ),
                 ),
-                GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => favourite_screen(),));},
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => favourite_screen()),
+                    );
+                  },
                   child: Icon(
                     Icons.favorite_outline,
                     color: Color(0xff8D3F00),
@@ -91,7 +92,6 @@ class _prod_cateState extends State<prod_cate> {
             ),
           ),
 
-          //After FB
           // Fetching and displaying items from Firestore
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
@@ -121,21 +121,24 @@ class _prod_cateState extends State<prod_cate> {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => product_description(
-                                  name: item['name'],
-                                  image: item['image_url'],
-                                  description: item['description'],
-                                  size: item['size'],
-                                  price: item['price'],
-                                ),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => product_description(
+                                name: item['name'],
+                                image: item['image_url'],
+                                description: item['description'],
+                                size: item['size'],
+                                price: item['price'],
+                              ),
+                            ),
+                          );
                         },
-                        child: Container(
-                          width: 170,
-                          height: 250,
-                          decoration: BoxDecoration(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                          child: Container(
+                            width: 170,
+                            height: 250,
+                            decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(22),
                               boxShadow: [
@@ -145,71 +148,74 @@ class _prod_cateState extends State<prod_cate> {
                                   blurRadius: 2,
                                   offset: Offset(0, 5),
                                 ),
-                              ]),
-                          child: Column(
-                            children: [
-                              // Image
-                              Image.network(
-                                item['image_url'],
-                                width: 150,
-                                height: 100,
-                                errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
-                              ),
-
-                              // Name
-                              Text(
-                                item['name'],
-                                style: TextStyle(
-                                  fontFamily: "Bebas",
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                // Image
+                                Image.network(
+                                  item['image_url'],
+                                  width: 150,
+                                  height: 100,
+                                  errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
                                 ),
-                              ),
 
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        item['size'],
-                                        style: TextStyle(
+                                // Name
+                                Text(
+                                  item['name'],
+                                  style: TextStyle(
+                                    fontFamily: "Bebas",
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item['size'],
+                                          style: TextStyle(
                                             fontFamily: "Bebas",
                                             color: Colors.grey,
-                                            fontSize: 18),
-                                      ),
-                                      Text(
-                                        "Rs ${item['price']}/-",
-                                        style: TextStyle(
-                                            fontSize: 18, fontFamily: "Bebas"),
-                                      ),
-                                    ],
-                                  ),
-                                  // Favourite Icon
-                                  Consumer<class_fav_provider>(
-                                    builder: (context, vm, child) {
-                                      return InkWell(
-                                        onTap: () {
-                                          // instance_favourites.toggleFavourite(list_items[index]);
-                                          vm.favourites.contains(item[index])
-                                              ? vm.remove_fav_item(item[index])
-                                              : vm.add_fav_item(item[index]);
-                                        },
-                                        child:
-                                        vm.favourites.contains(item[index])
-                                            ? Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                        )
-                                            : Icon(Icons.favorite_outline),
-                                      );
-
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Rs ${item['price']}/-",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: "Bebas",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // Favourite Icon
+                                    Consumer<class_fav_provider>(
+                                      builder: (context, vm, child) {
+                                        final isFavourite = vm.favourites.any((fav) => fav['name'] == item['name']);
+                                        return InkWell(
+                                          onTap: () {
+                                            if (userId != null) {
+                                              isFavourite
+                                                  ? vm.remove_fav_item(userId!, item)
+                                                  : vm.add_fav_item(userId!, item);
+                                            }
+                                          },
+                                          child: Icon(
+                                            isFavourite ? Icons.favorite : Icons.favorite_outline,
+                                            color: isFavourite ? Colors.red : Colors.black,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -221,129 +227,6 @@ class _prod_cateState extends State<prod_cate> {
               },
             ),
           ),
-
-          //Before FB
-          // Expanded(
-          //   child: Container(
-          //     child: GridView.builder(
-          //       itemCount: list.length,
-          //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //           mainAxisSpacing: 30, crossAxisSpacing: 5, crossAxisCount: 2),
-          //       itemBuilder: (context, index) {
-          //         //final product = list_items[index];
-          //         //final isFavorite = instance_favourites.isFavourite(product);
-          //         return Center(
-          //           child: GestureDetector(
-          //             onTap: () {
-          //               Navigator.push(
-          //                   context,
-          //                   MaterialPageRoute(
-          //                     builder: (context) => product_description(
-          //                       name : list[index]['name'],
-          //                       image : list[index]['image'],
-          //                       description: list[index]['description'],
-          //                       size: list[index]['size'],
-          //                       price: list[index]['price'],
-          //                     ),
-          //                   ));
-          //
-          //             },
-          //             child: Container(
-          //               width: 170,
-          //               height: 250,
-          //               decoration: BoxDecoration(
-          //                   color: Colors.white,
-          //                   borderRadius: BorderRadius.circular(22),
-          //                   boxShadow: [
-          //                     BoxShadow(
-          //                       color: Colors.grey,
-          //                       spreadRadius: 2,
-          //                       blurRadius: 2,
-          //                       offset: Offset(0, 5),
-          //                     ),
-          //                   ]),
-          //               child: Column(
-          //                 children: [
-          //                   //Image
-          //                   Image(
-          //                     image: AssetImage(list[index]['image']),
-          //                     width: 150,
-          //                     height: 100,
-          //                   ),
-          //
-          //                   //Name
-          //                   Text(
-          //                     list[index]['name'],
-          //                     style: TextStyle(
-          //                       fontFamily: "Bebas",
-          //                       fontSize: 22,
-          //                       fontWeight: FontWeight.bold,
-          //                     ),
-          //                   ),
-          //
-          //                   Row(
-          //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //                     children: [
-          //                       Column(
-          //                         crossAxisAlignment: CrossAxisAlignment.start,
-          //                         children: [
-          //                           Text(
-          //                             list[index]['size'],
-          //                             style: TextStyle(
-          //                                 fontFamily: "Bebas",
-          //                                 color: Colors.grey,
-          //                                 fontSize: 18),
-          //                           ),
-          //                           Text(
-          //                             "Rs " + list[index]['price']+"/-",
-          //                             style: TextStyle(
-          //                                 fontSize: 18, fontFamily: "Bebas"),
-          //                           ),
-          //                         ],
-          //                       ),
-          //                       Consumer<class_fav_provider>(
-          //                         builder: (context, vm, child) {
-          //                           return InkWell(
-          //                             onTap: () {
-          //                               // instance_favourites.toggleFavourite(list_items[index]);
-          //                               vm.favourites.contains(list[index])
-          //                                   ? vm.remove_fav_item(list[index])
-          //                                   : vm.add_fav_item(list[index]);
-          //                             },
-          //                             child:
-          //                             vm.favourites.contains(list[index])
-          //                                 ? Icon(
-          //                               Icons.favorite,
-          //                               color: Colors.red,
-          //                             )
-          //                                 : Icon(Icons.favorite_outline),
-          //                           );
-          //                           // IconButton(
-          //                           //   icon:
-          //                           //   vm.favourites.contains(list_items[index])
-          //                           //       ? Icon(
-          //                           //     Icons.favorite,
-          //                           //     color: Colors.red,
-          //                           //   )
-          //                           //       : Icon(Icons.favorite_border),
-          //                           //   onPressed: () {
-          //                           //     instance_favourites
-          //                           //         .toggleFavourite(product);
-          //                           //   },
-          //                           // );
-          //                         },
-          //                       ),
-          //                     ],
-          //                   ),
-          //                 ],
-          //               ),
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

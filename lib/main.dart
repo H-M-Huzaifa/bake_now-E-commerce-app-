@@ -2,6 +2,7 @@ import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Cart/Cart_screen.dart';
 import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
 import 'package:bake_now/UI/Screens/Checkout_Screen/Checkout.dart';
+import 'package:bake_now/UI/Screens/Checkout_Screen/checkout_provider.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description_provider.dart';
 import 'package:bake_now/UI/Screens/Product_categories/product_category_provider.dart';
@@ -9,12 +10,14 @@ import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen_provider.dart';
+import 'package:bake_now/UI/Screens/order_history_screen/order_history_provider.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin_provider.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:bake_now/UI/Screens/splash_screen/splash_screen.dart';
 import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
+import 'package:bake_now/UI/Screens/user_profile_screen/user_profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -49,6 +52,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => class_prod_desc()),
           ChangeNotifierProvider(create: (_) => class_sign_up_provider()),
           ChangeNotifierProvider(create: (_) => class_sign_in_provider()),
+          ChangeNotifierProvider(create: (_) => class_user_profile_provider()),
+          ChangeNotifierProvider(create: (_) => class_checkout_provider()),
+          ChangeNotifierProvider(create: (_) => OrderHistoryProvider()),
 
         ],
         child: MaterialApp(

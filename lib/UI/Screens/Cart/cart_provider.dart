@@ -33,4 +33,10 @@ class class_cart_provider with ChangeNotifier {
     //_totalPrice -= int.tryParse(item['price']) ?? 0; // Update total price
     notifyListeners();
   }
+
+  void clearCart() {
+    _cart_items.clear();
+    _totalprice = 0;
+    notifyListeners();
+  }
 }

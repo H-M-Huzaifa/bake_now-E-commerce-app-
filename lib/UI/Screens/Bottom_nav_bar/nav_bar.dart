@@ -17,7 +17,7 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
   List<Widget> Screens = [
     home_screen(),
     favourite_screen(),
-    order_history(),
+    OrderHistory(),
     user_profile(),
   ];
 
