@@ -1,3 +1,6 @@
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,8 +11,9 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
       body: Column(
         children: [
           // Appbar-like header
@@ -21,7 +25,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   fontFamily: 'Bebas',
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff8D3F00)),
+                  color: myColors.secondary_color),
             ),
           ),
           Expanded(

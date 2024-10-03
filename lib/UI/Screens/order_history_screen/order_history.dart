@@ -1,4 +1,6 @@
 import 'package:bake_now/UI/Screens/OrderDetails_screen/order_details_screen.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'order_history_provider.dart';
@@ -21,8 +23,9 @@ class _OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
       body: Column(
         children: [
           // Appbar-like header
@@ -32,9 +35,9 @@ class _OrderHistoryState extends State<OrderHistory> {
               "Order History",
               style: TextStyle(
                   fontFamily: 'Bebas',
-                  fontSize: 25,
+                  fontSize: size.text*1.2,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff8D3F00)),
+                  color: myColors.secondary_color),
             ),
           ),
 
@@ -72,7 +75,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey,
+                                color: myColors.textSecondary,
                                 spreadRadius: 2,
                                 blurRadius: 2,
                                 offset: Offset(0, 5),
@@ -88,12 +91,12 @@ class _OrderHistoryState extends State<OrderHistory> {
                                   Text(
                                     "Order #${order['orderNumber']}",
                                     style: TextStyle(
-                                        fontFamily: 'Bebas', fontSize: 18),
+                                        fontFamily: 'Bebas', fontSize: size.text*0.9),
                                   ),
                                   Text("Total: Rs. ${order['totalPrice']}"),
                                   Text(
                                     "Date: ${DateFormat.yMMMd().format(order['orderDate'].toDate())}",
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(color: myColors.textSecondary),
                                   ),
                                   Text("Items: ${order['cartItems'].length}"),
                                 ],
@@ -179,7 +182,7 @@ class _OrderHistoryState extends State<OrderHistory> {
 //                   fontFamily: 'Bebas',
 //                   fontSize: 25,
 //                   fontWeight: FontWeight.bold,
-//                   color: Color(0xff8D3F00)),
+//                   color: myColors.secondary_color),
 //             ),
 //           ),
 //

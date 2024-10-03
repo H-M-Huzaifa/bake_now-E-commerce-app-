@@ -4,6 +4,20 @@ import 'package:bake_now/UI/Screens/Cart/cart_provider.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description_provider.dart';
 import 'package:bake_now/UI/Screens/Product_categories/product_category_provider.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -43,11 +57,12 @@ class _product_descriptionState extends State<product_description> {
 
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     final instance_cart_provider = Provider.of<class_cart_provider>(context);
     final instance_prod_desc_provider = Provider.of<class_prod_desc>(context);
     //instance_prod_desc_provider.reset_quantity();
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,11 +70,11 @@ class _product_descriptionState extends State<product_description> {
             //product_container
             Container(
               width: double.infinity,
-              height: 460,
+              height: size.h*0.52,
               decoration: BoxDecoration(
                 image: DecorationImage(
                     fit: BoxFit.scaleDown, image: NetworkImage(widget.image)),
-                color: Color(0xffFFC107),
+                color: myColors.primary_color,
                 borderRadius: BorderRadius.only(
                   bottomRight: Radius.circular(150),
                   bottomLeft: Radius.circular(150),
@@ -83,15 +98,16 @@ class _product_descriptionState extends State<product_description> {
                                   ));
                             },
                             child: Icon(
-                                color: Color(0xff8D3F00),
+                                color: myColors.secondary_color,
+                                size: size.h*0.027,
                                 Icons.arrow_back_ios_new)),
                         Text(
                           widget.name,
                           style: TextStyle(
                               fontFamily: 'Bebas',
-                              fontSize: 25,
+                              fontSize: size.text*1.2,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff8D3F00)),
+                              color: myColors.secondary_color),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -115,8 +131,8 @@ class _product_descriptionState extends State<product_description> {
                             ),
                             child: Icon(
                               Icons.shopping_bag,
-                              color: Color(0xff8D3F00),
-                              size: 25,
+                              color: myColors.secondary_color,
+                              size: size.h*0.027,
                             ),
                           ),
                         ),
@@ -136,8 +152,8 @@ class _product_descriptionState extends State<product_description> {
                   widget.description.toString(),
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Color(0xff8D3F00)),
+                      fontSize: size.text*0.8,
+                      color: myColors.secondary_color),
                 ),
               ),
             ),
@@ -147,8 +163,8 @@ class _product_descriptionState extends State<product_description> {
               padding: const EdgeInsets.all(15.0),
               child: Center(
                 child: Container(
-                  width: 350,
-                  height: 60,
+                  width: size.w*0.8,
+                  height: size.h*0.06,
                   decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -167,7 +183,7 @@ class _product_descriptionState extends State<product_description> {
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
                           "Size",
-                          style: TextStyle(fontFamily: "Bebas", fontSize: 25),
+                          style: TextStyle(fontFamily: "Bebas", fontSize: size.text*1.2),
                         ),
                       ),
                       Padding(
@@ -176,8 +192,8 @@ class _product_descriptionState extends State<product_description> {
                           widget.size,
                           style: TextStyle(
                               fontFamily: "Bebas",
-                              fontSize: 25,
-                              color: Color(0xff8D3F00)),
+                              fontSize: size.text*1.2,
+                              color: myColors.secondary_color),
                         ),
                       )
                     ],
@@ -191,8 +207,8 @@ class _product_descriptionState extends State<product_description> {
               padding: const EdgeInsets.all(15.0),
               child: Center(
                 child: Container(
-                  width: 350,
-                  height: 60,
+                    width: size.w*0.8,
+                    height: size.h*0.06,
                   decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -211,7 +227,7 @@ class _product_descriptionState extends State<product_description> {
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
                           "Price",
-                          style: TextStyle(fontFamily: "Bebas", fontSize: 25),
+                          style: TextStyle(fontFamily: "Bebas", fontSize: size.text*1.2),
                         ),
                       ),
                       Padding(
@@ -220,8 +236,8 @@ class _product_descriptionState extends State<product_description> {
                           "Rs "+widget.price +"/-",
                           style: TextStyle(
                               fontFamily: "Bebas",
-                              fontSize: 25,
-                              color: Color(0xff8D3F00)),
+                              fontSize: size.text*1.2,
+                              color: myColors.secondary_color),
                         ),
                       )
                     ],
@@ -235,8 +251,8 @@ class _product_descriptionState extends State<product_description> {
               padding: const EdgeInsets.all(15.0),
               child: Center(
                 child: Container(
-                  width: 350,
-                  height: 60,
+                    width: size.w*0.8,
+                    height: size.h*0.06,
                   decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -255,7 +271,7 @@ class _product_descriptionState extends State<product_description> {
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
                           "Quantity",
-                          style: TextStyle(fontFamily: "Bebas", fontSize: 25),
+                          style: TextStyle(fontFamily: "Bebas", fontSize: size.text*1.2),
                         ),
                       ),
                       Consumer<class_prod_desc>(builder: (context, vm, child) {
@@ -281,7 +297,7 @@ class _product_descriptionState extends State<product_description> {
                                     child:
                                     Icon(color: Colors.white, Icons.remove),
                                     decoration: BoxDecoration(
-                                        color: Color(0xffFFC107),
+                                        color: myColors.primary_color,
                                         shape: BoxShape.circle),
                                   ),
                                 ),
@@ -292,7 +308,7 @@ class _product_descriptionState extends State<product_description> {
                                   child: Text(
                                     vm.quantity.toString(),
                                     style: TextStyle(
-                                        fontFamily: "Bebas", fontSize: 25),
+                                        fontFamily: "Bebas", fontSize: size.text*1.2),
                                   ),
                                 ),
 
@@ -310,7 +326,7 @@ class _product_descriptionState extends State<product_description> {
                                     height: 35,
                                     child: Icon(color: Colors.white, Icons.add),
                                     decoration: BoxDecoration(
-                                        color: Color(0xffFFC107),
+                                        color: myColors.primary_color,
                                         shape: BoxShape.circle),
                                   ),
                                 ),
@@ -351,17 +367,17 @@ class _product_descriptionState extends State<product_description> {
                         vm.add_cart_item(item);
 
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(duration: Duration(seconds: 2),
-                            backgroundColor: Color(0xff8D3F00),
+                            backgroundColor: myColors.secondary_color,
                             content: Center(
                                 child: Text(
                               "Added",
                               style:
-                                  TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                  TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                             ))));
                       },
                       child: Container(
-                          width: 200,
-                          height: 60,
+                          height: size.h*0.055,
+                          width: size.w*0.7,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -372,15 +388,15 @@ class _product_descriptionState extends State<product_description> {
                               )
                             ],
                             borderRadius: BorderRadius.circular(30),
-                            color: Color(0xffFFC107),
+                            color: myColors.primary_color,
                           ),
                           child: Center(
                               child: Text(
                             "Add to cart",
                             style: TextStyle(
                                 fontFamily: "Bebas",
-                                fontSize: 25,
-                                color: Color(0xff8D3F00)),
+                                fontSize: size.text*1.2,
+                                color: myColors.secondary_color),
                           ))),
                     ),
                   ),

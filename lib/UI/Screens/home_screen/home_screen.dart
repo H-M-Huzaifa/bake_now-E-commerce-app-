@@ -8,6 +8,21 @@ import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen_provider.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
 import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,29 +46,29 @@ class _home_screenState extends State<home_screen> {
   }
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     final instance_cart_provider = Provider.of<class_cart_provider>(context);
     final instance_prod_cate_provider = Provider.of<class_prod_cate_provider>(context,listen: false);
 
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
 
       //Floating Button
-      floatingActionButton: FloatingActionButton(
-          child: Image(
-              width: 40,
-              height: 40,
-              image: AssetImage('assets/icons/chat.png')),
-          backgroundColor: Color(0xffFFC107),
-          onPressed: () {}),
+      // floatingActionButton: FloatingActionButton(
+      //     child: Image(
+      //         height: size.h*0.04,
+      //         image: AssetImage('assets/icons/chat.png')),
+      //     backgroundColor: myColors.primary_color,
+      //     onPressed: () {}),
 
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         //app bar
         Container(
           width: double.infinity,
-          height: 310,
+          height: size.h*0.37,
           decoration: const BoxDecoration(
-            color: Color(0xffFFC107),
+            color: myColors.primary_color,
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(150),
               bottomLeft: Radius.circular(150),
@@ -68,35 +83,25 @@ class _home_screenState extends State<home_screen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => user_profile(),
-                            ));
-                      },
-                      child: Consumer<class_sign_up_provider>(builder: (context, vm, child) {
-                        vm.fetchUserImage();
-                        return CircleAvatar(
-                          maxRadius: 15,
-                          backgroundColor: Colors.grey.shade300,
-                          backgroundImage: vm.imageUrl != null
-                              ? NetworkImage(vm.imageUrl!) // Network image if available
-                              : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
-                        );
+                    Consumer<class_sign_up_provider>(builder: (context, vm, child) {
+                      vm.fetchUserImage();
+                      return CircleAvatar(
+                        maxRadius: size.h*0.016,
+                        backgroundColor: myColors.textSecondary.shade300,
+                        backgroundImage: vm.imageUrl != null
+                            ? NetworkImage(vm.imageUrl!) // Network image if available
+                            : AssetImage('assets/images/avatar.png') as ImageProvider, // Default avatar image
+                      );
 
-                      },
-                      ),
-
+                    },
                     ),
                     Text(
                       "Home",
                       style: TextStyle(
                           fontFamily: 'Bebas',
-                          fontSize: 25,
+                          fontSize: size.text*1.2,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff8D3F00)),
+                          color: myColors.secondary_color),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -115,8 +120,8 @@ class _home_screenState extends State<home_screen> {
                         ),
                         child: Icon(
                           Icons.shopping_bag,
-                          color: Color(0xff8D3F00),
-                          size: 25,
+                          color: myColors.secondary_color,
+                          size: size.h*0.027,
                         ),
                       ),
                     ),
@@ -135,8 +140,7 @@ class _home_screenState extends State<home_screen> {
                       ),
                     ]),
                     child: Image(
-                      width: 170,
-                      height: 170,
+                      width: size.w*0.4,
                       image: AssetImage('assets/images/logo.png'),
                     )),
 
@@ -147,7 +151,8 @@ class _home_screenState extends State<home_screen> {
                     onTapOutside: (event) => () {},
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search),
-                      hintText: "search",
+                      hintText: "Search",
+                      hintStyle: TextStyle(fontFamily: "Bebas",fontSize: size.text*0.9),
                       fillColor: Colors.white,
                       filled: true,
                       border: UnderlineInputBorder(
@@ -166,7 +171,7 @@ class _home_screenState extends State<home_screen> {
           child: Text(
             "categories:",
             style: TextStyle(
-                fontSize: 25, fontFamily: 'Bebas', color: Color(0xff8D3F00)),
+                fontSize: size.text*1.1, fontFamily: 'Bebas', color: myColors.secondary_color),
           ),
         ),
 
@@ -203,7 +208,7 @@ class _home_screenState extends State<home_screen> {
         //                       offset: Offset(-10, 5)),
         //                 ],
         //                 borderRadius: BorderRadius.circular(30),
-        //                 color: Color(0xffFFC107)),
+        //                 color: myColors.primary_color),
         //             child: Column(
         //               mainAxisAlignment: MainAxisAlignment.center,
         //               children: [
@@ -227,7 +232,7 @@ class _home_screenState extends State<home_screen> {
 
         // List of Categories from Firestore
         Container(
-          height: 100,
+          height: size.h*0.1,
           child: FutureBuilder<QuerySnapshot>(
             future: _firestore.collection('allitems').get(),
             builder: (context, snapshot) {
@@ -266,8 +271,8 @@ class _home_screenState extends State<home_screen> {
                           );
                         },
                         child: Container(
-                          width: 70,
-                          height: 70,
+                          width: size.w*0.17,
+                          height: size.h*0.17,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -277,21 +282,21 @@ class _home_screenState extends State<home_screen> {
                                   offset: Offset(-10, 5)),
                             ],
                             borderRadius: BorderRadius.circular(30),
-                            color: Color(0xffFFC107),
+                            color: myColors.primary_color,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.network(
                                 item['image_url'],
-                                width: 40,
-                                height: 40,
+                                width: size.w*0.4,
+                                height: size.h*0.04,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Icon(Icons.error),
                               ),
                               Text(
                                 item['name'],
-                                style: TextStyle(fontFamily: "Bebas", fontSize: 15),
+                                style: TextStyle(fontFamily: "Bebas", fontSize: size.text*0.7),
                               ),
                             ],
                           ),
@@ -313,7 +318,7 @@ class _home_screenState extends State<home_screen> {
           child: Text(
             "Popular Items:",
             style: TextStyle(
-                fontSize: 25, fontFamily: 'Bebas', color: Color(0xff8D3F00)),
+                fontSize: size.text*1.1, fontFamily: 'Bebas', color: myColors.secondary_color),
           ),
         ),
 
@@ -352,7 +357,7 @@ class _home_screenState extends State<home_screen> {
         //                     borderRadius: BorderRadius.circular(22),
         //                     boxShadow: [
         //                       BoxShadow(
-        //                         color: Colors.grey,
+        //                         color: myColors.textSecondary,
         //                         spreadRadius: 2,
         //                         blurRadius: 2,
         //                         offset: Offset(0, 5),
@@ -387,7 +392,7 @@ class _home_screenState extends State<home_screen> {
         //                               list[index]['size'],
         //                               style: TextStyle(
         //                                   fontFamily: "Bebas",
-        //                                   color: Colors.grey,
+        //                                   color: myColors.textSecondary,
         //                                   fontSize: 18),
         //                             ),
         //                             Text(
@@ -483,14 +488,14 @@ class _home_screenState extends State<home_screen> {
                           );
                         },
                         child: Container(
-                          width: 170,
-                          height: 250,
+                          width: size.w*0.4,
+                          //height: 250,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(22),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey,
+                                color: myColors.textSecondary,
                                 spreadRadius: 2,
                                 blurRadius: 2,
                                 offset: Offset(0, 5),
@@ -502,8 +507,8 @@ class _home_screenState extends State<home_screen> {
                               // Image
                               Image.network(
                                 list[index]['image_url'],
-                                width: 150,
-                                height: 100,
+                                width: size.w*0.5,
+                                height: size.h*0.12,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Icon(Icons.error),
                               ),
@@ -512,7 +517,7 @@ class _home_screenState extends State<home_screen> {
                                 list[index]['name'],
                                 style: TextStyle(
                                   fontFamily: "Bebas",
-                                  fontSize: 22,
+                                  fontSize: size.text*1,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -526,13 +531,13 @@ class _home_screenState extends State<home_screen> {
                                         list[index]['size'],
                                         style: TextStyle(
                                             fontFamily: "Bebas",
-                                            color: Colors.grey,
-                                            fontSize: 18),
+                                            color: myColors.textSecondary,
+                                            fontSize: size.text*0.8),
                                       ),
                                       Text(
-                                        "Rs ${list[index]['price']}",
+                                        "Rs ${list[index]['price']+"/-"}",
                                         style: TextStyle(
-                                            fontSize: 18, fontFamily: "Bebas"),
+                                            fontSize: size.text*0.8, fontFamily: "Bebas"),
                                       ),
                                     ],
                                   ),

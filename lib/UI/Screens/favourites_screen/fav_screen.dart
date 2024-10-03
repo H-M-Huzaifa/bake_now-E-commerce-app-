@@ -1,4 +1,9 @@
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,8 +30,9 @@ class _favourite_screenState extends State<favourite_screen> {
 
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
       body: Center(
         child: Column(
           children: [
@@ -37,9 +43,9 @@ class _favourite_screenState extends State<favourite_screen> {
                 "Favourites",
                 style: TextStyle(
                   fontFamily: 'Bebas',
-                  fontSize: 25,
+                  fontSize: size.text*1.2,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff8D3F00),
+                  color: myColors.secondary_color,
                 ),
               ),
             ),
@@ -56,13 +62,13 @@ class _favourite_screenState extends State<favourite_screen> {
                         Image.asset(
                           'assets/images/brokenheart.png',
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: size.h*0.02),
                         Text(
                           "Oops! It seems you haven't liked anything yet.",
                           style: TextStyle(
                             fontFamily: 'Bebas',
-                            fontSize: 22,
-                            color: Color(0xff8D3F00),
+                            fontSize: size.text*1,
+                            color: myColors.secondary_color,
                           ),
                         ),
                       ],
@@ -89,7 +95,7 @@ class _favourite_screenState extends State<favourite_screen> {
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey,
+                                color: myColors.textSecondary,
                                 spreadRadius: 2,
                                 blurRadius: 2,
                                 offset: Offset(0, 5),
@@ -102,7 +108,7 @@ class _favourite_screenState extends State<favourite_screen> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Image.network(image,width: 100,height: 100,errorBuilder: (context, error, stackTrace) =>
+                                  Image.network(image,width: size.w*0.2,height: size.h*0.09,errorBuilder: (context, error, stackTrace) =>
                                       Icon(Icons.error),),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +116,7 @@ class _favourite_screenState extends State<favourite_screen> {
                                       Text(
                                         name,
                                         style: TextStyle(
-                                            fontFamily: 'Bebas', fontSize: 18),
+                                            fontFamily: 'Bebas', fontSize: size.text*0.9),
                                       ),
                                       Text("Rs "+price+"/-"),
                                     ],

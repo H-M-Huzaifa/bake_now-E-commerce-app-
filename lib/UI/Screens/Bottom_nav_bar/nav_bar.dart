@@ -3,6 +3,9 @@ import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:bake_now/UI/Screens/order_history_screen/order_history.dart';
 import 'package:bake_now/UI/Screens/user_profile_screen/user_profile.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 
@@ -49,8 +52,8 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
       body: IndexedStack(index: selectedstate, children: Screens),
       bottomNavigationBar: BottomBarInspiredOutside(
         items: items,
-        backgroundColor: Color(0xffefc332),
-        color: Colors.black,
+        backgroundColor: myColors.primary_color,
+        color: myColors.text_primary,
         colorSelected: Colors.white,
         indexSelected: selectedstate,
         onTap: (index) => setState(() {
@@ -58,7 +61,7 @@ class _bottom_nav_barState extends State<bottom_nav_bar> {
         }),
         chipStyle: const ChipStyle(
           color: Colors.red,
-          background: Color(0xffbb5900),
+          background: myColors.secondary_color,
           convexBridge: false,
           notchSmoothness: NotchSmoothness.sharpEdge,
         ),

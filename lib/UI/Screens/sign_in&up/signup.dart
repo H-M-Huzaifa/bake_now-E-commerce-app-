@@ -1,6 +1,49 @@
 import 'dart:io';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signup_provider.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -60,8 +103,9 @@ class _signupState extends State<signup> {
 
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
       body: SingleChildScrollView(
         child: Consumer<class_sign_up_provider>(
           builder: (context, vm, child) {
@@ -71,14 +115,14 @@ class _signupState extends State<signup> {
               children: [
                 // App bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 50),
+                  padding: const EdgeInsets.only(top: 40,bottom: 20),
                   child: Text(
                     "Signup",
                     style: TextStyle(
                       fontFamily: 'Bebas',
-                      fontSize: 25,
+                      fontSize: size.text*1.2,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff8D3F00),
+                      color: myColors.secondary_color,
                     ),
                   ),
                 ),
@@ -88,7 +132,7 @@ class _signupState extends State<signup> {
                 //   height: 150,
                 //   width: 150,
                 //   decoration: BoxDecoration(
-                //     color: Colors.grey.shade300,
+                //     color: myColors.textSecondary.shade300,
                 //     shape: BoxShape.circle,
                 //   ),
                 //   child: vm.imageUrl != null
@@ -128,7 +172,7 @@ class _signupState extends State<signup> {
                   return Stack(
                       children:[
                         CircleAvatar(
-                          maxRadius: 80,
+                          maxRadius: size.h*0.08,
                           backgroundImage: vm.pickedImage != null
                               ? FileImage(File(vm.pickedImage!.path)) // Show the picked image for preview
                               : (vm.imageUrl != null
@@ -154,7 +198,7 @@ class _signupState extends State<signup> {
                     children: [
                       //name
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -169,31 +213,31 @@ class _signupState extends State<signup> {
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide: BorderSide(
                                   width: 1,
-                                  color: Color(0xff8D3F00),
+                                  color: myColors.secondary_color,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(width: 2, color: Color(0xffFFC107)),
+                                BorderSide(width: 1, color: myColors.primary_color),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               prefixIcon: Icon(
                                 Icons.drive_file_rename_outline,
-                                color: Color(0xff8D3F00),
+                                color: myColors.secondary_color,
                               ),
                               hintText: 'Daniel Ritchie',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: TextStyle(fontSize: size.text*0.7,color: myColors.textSecondary),
                               labelText: 'Name',
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                              labelStyle: TextStyle(fontSize: size.text*0.7,fontWeight: FontWeight.bold)),
                         ),
                       ),
 
                       //Email
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -209,31 +253,31 @@ class _signupState extends State<signup> {
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide: BorderSide(
                                   width: 1,
-                                  color: Color(0xff8D3F00),
+                                  color: myColors.secondary_color,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(width: 2, color: Color(0xffFFC107)),
+                                BorderSide(width: 2, color: myColors.primary_color),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               prefixIcon: Icon(
                                 Icons.alternate_email,
-                                color: Color(0xff8D3F00),
+                                color: myColors.secondary_color,
                               ),
                               hintText: 'abc123@xyz.com',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: TextStyle(fontSize: size.text*0.7,color: myColors.textSecondary),
                               labelText: 'Email',
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                              labelStyle: TextStyle(fontSize: size.text*0.7,fontWeight: FontWeight.bold)),
                         ),
                       ),
 
                       //Address
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -248,31 +292,31 @@ class _signupState extends State<signup> {
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide: BorderSide(
                                   width: 1,
-                                  color: Color(0xff8D3F00),
+                                  color: myColors.secondary_color,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(width: 2, color: Color(0xffFFC107)),
+                                BorderSide(width: 2, color: myColors.primary_color),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               prefixIcon: Icon(
                                 Icons.location_on,
-                                color: Color(0xff8D3F00),
+                                color: myColors.secondary_color,
                               ),
                               hintText: 'Anywhere North St 123',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: TextStyle(fontSize: size.text*0.7,color: myColors.textSecondary),
                               labelText: 'Address',
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                              labelStyle: TextStyle(fontSize: size.text*0.7,fontWeight: FontWeight.bold)),
                         ),
                       ),
 
                       //Phone
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -288,31 +332,31 @@ class _signupState extends State<signup> {
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide: BorderSide(
                                   width: 1,
-                                  color: Color(0xff8D3F00),
+                                  color: myColors.secondary_color,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(width: 2, color: Color(0xffFFC107)),
+                                BorderSide(width: 2, color: myColors.primary_color),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               prefixIcon: Icon(
                                 Icons.phone_android,
-                                color: Color(0xff8D3F00),
+                                color: myColors.secondary_color,
                               ),
                               hintText: '0321-1234567',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: TextStyle(fontSize: size.text*0.7,color: myColors.textSecondary),
                               labelText: 'Contact Number',
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                              labelStyle: TextStyle(fontSize: size.text*0.7,fontWeight: FontWeight.bold)),
                         ),
                       ),
 
                       //Password
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -328,22 +372,22 @@ class _signupState extends State<signup> {
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide: BorderSide(
                                   width: 1,
-                                  color: Color(0xff8D3F00),
+                                  color: myColors.secondary_color,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(width: 2, color: Color(0xffFFC107)),
+                                BorderSide(width: 2, color: myColors.primary_color),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               prefixIcon: Icon(
                                 Icons.lock,
-                                color: Color(0xff8D3F00),
+                                color: myColors.secondary_color,
                               ),
-                              suffixIconColor: Color(0xffFFC107),
+                              suffixIconColor: myColors.primary_color,
                               suffixIcon: IconButton(
                                 icon: Icon(vm.isPasswordVisible ? Icons.visibility:
                                 Icons.visibility_off),
@@ -351,15 +395,15 @@ class _signupState extends State<signup> {
                                   vm.togglePasswordVisibility();
                                 },),
                               hintText: '(0-9)(A-Z)(a-z)(alphanumeric)',
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: TextStyle(fontSize: size.text*0.7,color: myColors.textSecondary),
                               labelText: 'Password',
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                              labelStyle: TextStyle(fontSize: size.text*0.7,fontWeight: FontWeight.bold)),
                         ),
                       ),
 
                       //Confirm Password
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 25),
                         child: TextFormField(
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -375,22 +419,22 @@ class _signupState extends State<signup> {
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide: BorderSide(
                                   width: 1,
-                                  color: Color(0xff8D3F00),
+                                  color: myColors.secondary_color,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                                 borderSide:
-                                BorderSide(width: 2, color: Color(0xffFFC107)),
+                                BorderSide(width: 2, color: myColors.primary_color),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(11),
                               ),
                               // prefixIcon: Icon(
                               //   Icons.drive_file_rename_outline,
-                              //   color: Color(0xff8D3F00),
+                              //   color: myColors.secondary_color,
                               // ),
-                              suffixIconColor: Color(0xffFFC107),
+                              suffixIconColor: myColors.primary_color,
                               suffixIcon:
                               IconButton(
                                 icon: Icon(vm.isConfirmPasswordVisible ? Icons.visibility:
@@ -399,9 +443,9 @@ class _signupState extends State<signup> {
                                   vm.toggleConfirmPasswordVisibility();
                                 },),
 
-                              hintStyle: TextStyle(color: Colors.grey),
+                              hintStyle: TextStyle(fontSize: size.text*0.7,color: myColors.textSecondary),
                               labelText: 'Confirm Password',
-                              labelStyle: TextStyle(fontWeight: FontWeight.bold)),
+                              labelStyle: TextStyle(fontSize: size.text*0.7,fontWeight: FontWeight.bold)),
                         ),
                       ),
                     ],
@@ -409,13 +453,13 @@ class _signupState extends State<signup> {
                 ),
               ),
 
-              //or login with
+              //or signup with
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Center(
                     child: Text(
                       "or Signup with",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(fontSize: size.text*0.6,color: myColors.textSecondary),
                     )),
               ),
 
@@ -428,10 +472,10 @@ class _signupState extends State<signup> {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Container(
-                      height: 50,
-                      width: 80,
+                      height: size.h*0.062,
+                      width: size.w*0.22,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(color: myColors.textSecondary),
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white),
                       child: Center(
@@ -446,10 +490,10 @@ class _signupState extends State<signup> {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Container(
-                      height: 50,
-                      width: 80,
+                      height: size.h*0.062,
+                      width: size.w*0.22,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(color: myColors.textSecondary),
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.white),
                       child: Center(
@@ -499,7 +543,8 @@ class _signupState extends State<signup> {
                                     'contact': contact_controller.text.trim(),
                                     'created at': DateTime.now(),
                                     'user ID': currentUser.uid,
-                                    'image': vm.imageUrl,  // Save the uploaded image URL
+                                    'image': vm.imageUrl,
+                                    'role':"user",
                                   });
 
                                   setState(() {
@@ -517,11 +562,11 @@ class _signupState extends State<signup> {
                                   // Show success message
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     duration: Duration(seconds: 2),
-                                    backgroundColor: Color(0xff8D3F00),
+                                    backgroundColor: myColors.secondary_color,
                                     content: Center(
                                       child: Text(
                                         "Account Created Successfully!",
-                                        style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                        style: TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                                       ),
                                     ),
                                   ));
@@ -533,11 +578,11 @@ class _signupState extends State<signup> {
 
                                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                     duration: Duration(seconds: 2),
-                                    backgroundColor: Color(0xff8D3F00),
+                                    backgroundColor: myColors.secondary_color,
                                     content: Center(
                                       child: Text(
                                         "User creation failed!",
-                                        style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                        style: TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                                       ),
                                     ),
                                   ));
@@ -550,11 +595,11 @@ class _signupState extends State<signup> {
                                 // Show error message
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                   duration: Duration(seconds: 2),
-                                  backgroundColor: Color(0xff8D3F00),
+                                  backgroundColor: myColors.secondary_color,
                                   content: Center(
                                     child: Text(
                                       error.toString(),
-                                      style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                      style: TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                                     ),
                                   ),
                                 ));
@@ -567,11 +612,11 @@ class _signupState extends State<signup> {
                               // Show error message
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 duration: Duration(seconds: 2),
-                                backgroundColor: Color(0xff8D3F00),
+                                backgroundColor: myColors.secondary_color,
                                 content: Center(
                                   child: Text(
                                     e.toString(),
-                                    style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                    style: TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                                   ),
                                 ),
                               ));
@@ -580,11 +625,11 @@ class _signupState extends State<signup> {
                             // Passwords don't match
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               duration: Duration(seconds: 2),
-                              backgroundColor: Color(0xff8D3F00),
+                              backgroundColor: myColors.secondary_color,
                               content: Center(
                                 child: Text(
                                   "Password Didn't Matched!",
-                                  style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                  style: TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                                 ),
                               ),
                             ));
@@ -593,19 +638,19 @@ class _signupState extends State<signup> {
                           // Form validation failed
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             duration: Duration(seconds: 2),
-                            backgroundColor: Color(0xff8D3F00),
+                            backgroundColor: myColors.secondary_color,
                             content: Center(
                               child: Text(
                                 "Please Fill in the Required Fields",
-                                style: TextStyle(fontSize: 20, fontFamily: 'Bebas'),
+                                style: TextStyle(fontSize: size.text*0.8, fontFamily: 'Bebas'),
                               ),
                             ),
                           ));
                         }
                       },
                       child: Container(
-                        width: 200,
-                        height: 60,
+                        height: size.h*0.055,
+                        width: size.w*0.7,
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -616,7 +661,7 @@ class _signupState extends State<signup> {
                             ),
                           ],
                           borderRadius: BorderRadius.circular(30),
-                          color: Color(0xffFFC107),
+                          color: myColors.primary_color,
                         ),
                         child: Center(
                           child: _isloading
@@ -625,8 +670,8 @@ class _signupState extends State<signup> {
                             "Create Account",
                             style: TextStyle(
                               fontFamily: "Bebas",
-                              fontSize: 25,
-                              color: Color(0xff8D3F00),
+                              fontSize: size.text*1,
+                              color: myColors.secondary_color,
                             ),
                           ),
                         ),
@@ -652,12 +697,12 @@ class _signupState extends State<signup> {
                       text: TextSpan(children: [
                         TextSpan(
                             text: "Already have an account? ",
-                            style: TextStyle(fontSize: 12, color: Colors.grey)),
+                            style: TextStyle(fontSize: size.text*0.6, color: myColors.textSecondary)),
                         TextSpan(
                             text: "Login",
                             style: TextStyle(
-                                fontSize: 15,
-                                color: Color(0xffFFC107),
+                                fontSize: size.text*0.8,
+                                color: myColors.primary_color,
                                 fontWeight: FontWeight.bold))
                       ])),
                 ),

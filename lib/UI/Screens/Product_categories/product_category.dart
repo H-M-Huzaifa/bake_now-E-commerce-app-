@@ -2,6 +2,8 @@ import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/Product_Description_Screen/product_description.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_provider.dart';
 import 'package:bake_now/UI/Screens/favourites_screen/fav_screen.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';  // For user ID
 import 'package:flutter/material.dart';
@@ -41,8 +43,9 @@ class _prod_cateState extends State<prod_cate> {
 
   @override
   Widget build(BuildContext context) {
+    screen_config size=screen_config(context);
     return Scaffold(
-      backgroundColor: Color(0xffFFF7DE),
+      backgroundColor: myColors.tertiary_color,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,16 +66,17 @@ class _prod_cateState extends State<prod_cate> {
                   },
                   child: Icon(
                     Icons.arrow_back_ios_new,
-                    color: Color(0xff8D3F00),
+                    color: myColors.secondary_color,
+                    size: size.h*0.027,
                   ),
                 ),
                 Text(
                   widget.name,
                   style: TextStyle(
                     fontFamily: 'Bebas',
-                    fontSize: 25,
+                    fontSize: size.text*1.2,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff8D3F00),
+                    color: myColors.secondary_color,
                   ),
                 ),
                 GestureDetector(
@@ -84,8 +88,8 @@ class _prod_cateState extends State<prod_cate> {
                   },
                   child: Icon(
                     Icons.favorite_outline,
-                    color: Color(0xff8D3F00),
-                    size: 25,
+                    color: myColors.secondary_color,
+                    size: size.h*0.027,
                   ),
                 ),
               ],
@@ -136,14 +140,14 @@ class _prod_cateState extends State<prod_cate> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
                           child: Container(
-                            width: 170,
-                            height: 250,
+                            width: size.w,
+                            height: size.h,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(22),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey,
+                                  color: myColors.textSecondary,
                                   spreadRadius: 2,
                                   blurRadius: 2,
                                   offset: Offset(0, 5),
@@ -155,8 +159,8 @@ class _prod_cateState extends State<prod_cate> {
                                 // Image
                                 Image.network(
                                   item['image_url'],
-                                  width: 150,
-                                  height: 100,
+                                  width: size.w*0.5,
+                                  height: size.h*0.1,
                                   errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
                                 ),
 
@@ -165,7 +169,7 @@ class _prod_cateState extends State<prod_cate> {
                                   item['name'],
                                   style: TextStyle(
                                     fontFamily: "Bebas",
-                                    fontSize: 22,
+                                    fontSize: size.text*1,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -180,14 +184,14 @@ class _prod_cateState extends State<prod_cate> {
                                           item['size'],
                                           style: TextStyle(
                                             fontFamily: "Bebas",
-                                            color: Colors.grey,
-                                            fontSize: 18,
+                                            color: myColors.textSecondary,
+                                            fontSize: size.text*0.9,
                                           ),
                                         ),
                                         Text(
                                           "Rs ${item['price']}/-",
                                           style: TextStyle(
-                                            fontSize: 18,
+                                            fontSize: size.text*0.9,
                                             fontFamily: "Bebas",
                                           ),
                                         ),
@@ -207,7 +211,7 @@ class _prod_cateState extends State<prod_cate> {
                                           },
                                           child: Icon(
                                             isFavourite ? Icons.favorite : Icons.favorite_outline,
-                                            color: isFavourite ? Colors.red : Colors.black,
+                                            color: isFavourite ? Colors.red : myColors.text_primary,
                                           ),
                                         );
                                       },

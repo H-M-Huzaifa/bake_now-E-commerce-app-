@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bake_now/UI/Screens/Bottom_nav_bar/nav_bar.dart';
 import 'package:bake_now/UI/Screens/home_screen/home_screen.dart';
 import 'package:bake_now/UI/Screens/sign_in&up/signin.dart';
+import 'package:bake_now/Utilities/colors.dart';
+import 'package:bake_now/Utilities/screen_size_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,7 @@ class _splash_screenState extends State<splash_screen> {
   }
   @override
   Widget build(BuildContext context) {
+    screen_config size= screen_config(context);
     return Scaffold(
       body: Container(
         width: double.maxFinite,
@@ -38,7 +41,7 @@ class _splash_screenState extends State<splash_screen> {
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
-            colors: [Color(0xffEFC232), Colors.white],
+            colors: [myColors.primary_color, Colors.white],
           ),
         ),
         child: Column(
@@ -56,8 +59,7 @@ class _splash_screenState extends State<splash_screen> {
                         offset: Offset(-10, 5))
                   ]),
                   child: Image(
-                    height: 250,
-                    width: 250,
+                    width: size.w*0.6,
                     image: AssetImage('assets/images/logo.png'),
                   )),
             ),
@@ -66,12 +68,12 @@ class _splash_screenState extends State<splash_screen> {
             Container(
                 child: Column(children: [
               Text("powered by",
-                  style: TextStyle(fontSize: 20,color: Colors.grey,fontFamily: 'Londrina')
+                  style: TextStyle(fontSize: size.text,color: myColors.textSecondary,fontFamily: 'Londrina')
                   //GoogleFonts.londrinaSolid(
-                    //  color: Colors.grey, fontSize: 20)
+                    //  color: myColors.text_se, fontSize: 20)
               ),
                   Image(
-                    width: 200,
+                    width: size.w*0.5,
                     image:AssetImage('assets/images/EB.png'),
                   ),      
             ]
