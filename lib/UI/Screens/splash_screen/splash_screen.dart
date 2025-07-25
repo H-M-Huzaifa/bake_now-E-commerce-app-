@@ -65,20 +65,20 @@ class _splash_screenState extends State<splash_screen> {
             ),
 
             //Bottom Text and Image
-            Container(
-                child: Column(children: [
-              Text("powered by",
-                  style: TextStyle(fontSize: size.text,color: myColors.textSecondary,fontFamily: 'Londrina')
-                  //GoogleFonts.londrinaSolid(
-                    //  color: myColors.text_se, fontSize: 20)
-              ),
-                  Image(
-                    width: size.w*0.5,
-                    image:AssetImage('assets/images/EB.png'),
-                  ),      
-            ]
-                )
-            ),
+            // Container(
+            //     child: Column(children: [
+            //   Text("powered by",
+            //       style: TextStyle(fontSize: size.text,color: myColors.textSecondary,fontFamily: 'Londrina')
+            //       //GoogleFonts.londrinaSolid(
+            //         //  color: myColors.text_se, fontSize: 20)
+            //   ),
+            //       Image(
+            //         width: size.w*0.5,
+            //         image:AssetImage('assets/images/EB.png'),
+            //       ),      
+            // ]
+            //     )
+            // ),
             
           ],
         ),
