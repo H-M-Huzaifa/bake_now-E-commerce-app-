@@ -1,5 +1,5 @@
-Bakers Confectionary Ordering App
-Welcome to the Bakers Confectionary Ordering App! This mobile application is designed to provide a delightful and seamless experience for customers to browse, select, and order their favorite confectionaries. With an intuitive and aesthetically pleasing UI, coupled with robust Firebase integration, ordering delicious treats has never been easier or more secure.
+BakeNow
+Welcome to the BakeNow mobile application! This app is designed to provide a delightful and seamless experience for customers to browse, select, and order their favorite confectionaries. With an intuitive and aesthetically pleasing UI, coupled with robust Firebase integration, ordering delicious treats has never been easier or more secure.
 
 Features
 Intuitive & Aesthetic UI: A clean, modern, and visually appealing design ensures a pleasant user experience from browsing to checkout.
@@ -23,5 +23,6 @@ User Profiles: Manage personal information and delivery addresses for quick reor
 Responsive Design: Optimized for various mobile devices, ensuring a consistent experience across different screen sizes.
 
 App Screenshot
-Experience the elegance and simplicity of the Bakers Confectionary Ordering App:
-![GlucoTrack App Screenshot](glucotrack.png)
+Experience the elegance and simplicity of the BakeNow App:
+
+![BakeNow App Screenshot](bake_now.png)
